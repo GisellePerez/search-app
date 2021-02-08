@@ -4,32 +4,23 @@
 frontend/node_modules
 server/node_modules
 /.pnp
-frontend//.pnp
 .pnp.js
-frontend/.pnp.js
 
 # testing
 frontend/coverage
+/coverage
 
 # production
 frontend/build
 /build
 
 # misc
-frontend/.DS_Store
 .DS_Store
-frontend/.env.local
 .env.local
-frontend/.env.development.local
 .env.development.local
-frontend/.env.test.local
 .env.test.local
-frontend/.env.production.local
 .env.production.local
 
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
