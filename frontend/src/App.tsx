@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
+import apiRoutes from "./constants/apiRoutes";
+
 const Title = styled.h1`
   color: gray;
 `;
@@ -8,15 +10,37 @@ const Title = styled.h1`
 function App() {
   const [test, setTest] = useState("");
 
-  const fetchResponse = () => {
-    fetch("http://localhost:9000/users")
-      .then((res) => res.text())
-      .then((res) => setTest(res))
-      .catch((err) => err);
+  const handleSearchByQuery = async () => {
+    const query = "bicicleta";
+
+    fetch(`${apiRoutes.expressApi}/api/items?q=${query}`, {
+      method: "get",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((error) => error);
+  };
+
+  const handleFetchItemById = async () => {
+    const id = "MLA601795056";
+
+    fetch(`${apiRoutes.expressApi}/api/items/${id}`, {
+      method: "get",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => console.log(data))
+      .catch((error) => error);
   };
 
   useEffect(() => {
-    fetchResponse();
+    handleSearchByQuery();
+    handleFetchItemById();
   }, []);
 
   return (
