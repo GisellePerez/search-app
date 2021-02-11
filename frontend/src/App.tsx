@@ -1,54 +1,40 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
-import apiRoutes from "./constants/apiRoutes";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
+import ProductsList from "./components/ProductsList/ProductsList";
 
 const Title = styled.h1`
   color: gray;
 `;
 
 function App() {
-  const [test, setTest] = useState("");
-
-  const handleSearchByQuery = async () => {
-    const query = "bicicleta";
-
-    fetch(`${apiRoutes.expressApi}/api/items?q=${query}`, {
-      method: "get",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((data) => console.log(data))
-      .catch((error) => error);
-  };
-
-  const handleFetchItemById = async () => {
-    const id = "MLA601795056";
-
-    fetch(`${apiRoutes.expressApi}/api/items/${id}`, {
-      method: "get",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((data) => console.log(data))
-      .catch((error) => error);
-  };
-
-  useEffect(() => {
-    handleSearchByQuery();
-    handleFetchItemById();
-  }, []);
-
   return (
     <div className="App">
       <header className="App-header">
         <Title>Hello world!</Title>
-        <p>{test}</p>
       </header>
+      <section>
+        {/* TODO: add search bar here */}
+        <Router>
+          <ul>
+            <li>
+              <Link to="/items">Items</Link>
+            </li>
+            <li>
+              <Link to="/items/MLA601795056">Item id</Link>
+            </li>
+          </ul>
+
+          <hr />
+
+          <Switch>
+            <Route exact path="/items" component={ProductsList} />
+            <Route path="/items/:id" component={ProductDetail} />
+          </Switch>
+        </Router>
+      </section>
     </div>
   );
 }
