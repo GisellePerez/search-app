@@ -11,7 +11,7 @@ const ProductDetail = (): ReactElement => {
 
   const handleFetchItemById = async () => {
     try {
-      const response = await fetch(`${apiRoutes.expressApi}/api/items?q=${id}`);
+      const response = await fetch(`${apiRoutes.expressApi}/api/items/${id}`);
       const data = await response.json();
 
       setItemData(data);
