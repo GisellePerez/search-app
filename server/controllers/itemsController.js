@@ -78,25 +78,55 @@ self.fetchItems = async function (req, res, next) {
 // Fetch item by id
 self.fetchItemById = async function (req, res, next) {
   // 1. Get query from frontend request
-  const queryId = req.query.id;
+  const queryId = req.params.id;
+  const itemUrl = `${baseUrl}/items/${queryId}`;
 
   // 2. Fetch item data by its id
   const fetchItemData = async () => {
     try {
-      const response = await fetch(`${baseUrl}/items/${queryId}`);
-      const data = await response.json();
+      const response = await fetch(itemUrl);
+      const itemData = await response.json();
 
-      return data;
+      return itemData;
     } catch (error) {
       console.log("error", error.message);
     }
+  };
+
+  const fetchItemDescription = async () => {
+    try {
+      const descriptionResponse = await fetch(`${itemUrl}/description`);
+      const description = await descriptionResponse.json();
+
+      return description.plain_text;
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
+
+  const formatItemDetailData = async (item) => {
+    const formatedDetail = {
+      id: item.id,
+      title: item.title,
+      price: {
+        currency: item.currency_id,
+        amount: item.price,
+        decimals: item.price, // TODO: build decimals
+      },
+      picture: item.thumbnail,
+      condition: item.condition,
+      free_shipping: item.shipping.free_shipping,
+      description: await fetchItemDescription(),
+    };
+
+    return formatedDetail;
   };
 
   const itemData = await fetchItemData();
 
   res.send({
     author: author,
-    data: itemData,
+    item: await formatItemDetailData(itemData),
   });
 };
 
