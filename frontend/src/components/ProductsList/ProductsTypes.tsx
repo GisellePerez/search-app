@@ -10,6 +10,12 @@ export type ProductCardType = {
   condition: string;
   free_shipping: boolean;
   description: string;
+  address: {
+    state_id: number;
+    state_name: string;
+    city_id: number;
+    city_name: string;
+  };
 };
 
 export type CategoryType = {
@@ -30,4 +36,5 @@ export type ProductDetailType = {
   free_shipping: boolean;
   description: string;
   categories: CategoryType[];
+  sold_quantity: number;
 };

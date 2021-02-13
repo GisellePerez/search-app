@@ -55,6 +55,12 @@ self.fetchItems = async function (req, res, next) {
             picture: item.thumbnail,
             condition: item.condition,
             free_shipping: item.shipping.free_shipping,
+            address: {
+              state_id: item.address.state_id,
+              state_name: item.address.state_name,
+              city_id: item.address.city_id,
+              city_name: item.address.city_name,
+            },
           };
         }
       });
@@ -64,6 +70,7 @@ self.fetchItems = async function (req, res, next) {
   };
 
   const rawData = await fetchData();
+  console.log(rawData.results);
 
   // Send response with requested format
   if (rawData.results.length > 0) {
@@ -127,6 +134,19 @@ self.fetchItemById = async function (req, res, next) {
     }
   };
 
+  const translateCondition = async (condition) => {
+    switch (condition) {
+      case "new":
+        return "Nuevo";
+
+      case "used":
+        return "Usado";
+
+      default:
+        return condition;
+    }
+  };
+
   // Function to format item response to send to frontend
   const formatItemDetailData = async (item) => {
     const formattedDetail = {
@@ -138,10 +158,11 @@ self.fetchItemById = async function (req, res, next) {
         decimals: item.price, // TODO: build decimals
       },
       picture: item.thumbnail,
-      condition: item.condition,
+      condition: await translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
       description: await fetchItemDescription(),
       categories: await fetchItemCategories(),
+      sold_quantity: item.sold_quantity,
     };
 
     return formattedDetail;
