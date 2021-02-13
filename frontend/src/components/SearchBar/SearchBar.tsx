@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import styled from "styled-components";
+import theme from "../../constants/theme";
 
 const Label = styled.label`
   position: absolute;
