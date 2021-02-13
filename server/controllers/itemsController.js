@@ -10,11 +10,11 @@ const author = {
 
 // Fetch list of items by query
 self.fetchItems = async function (req, res, next) {
-  // 1. Get query from frontend request
+  // Get query from frontend request
   const query = req.query.q;
 
-  // Get categories based on items.category_id
-  const getCategories = async (items) => {
+  // Function to fetch categories based on items.category_id
+  const fetchCategories = async (items) => {
     if (items && items.length > 0 && items[0].category_id) {
       const categoriesResponse = await fetch(
         `${baseUrl}/categories/${items[0].category_id}`
@@ -25,7 +25,7 @@ self.fetchItems = async function (req, res, next) {
     }
   };
 
-  // 2. Request data from api based on query received
+  // Function to fetch data from api based on search query
   const fetchData = async () => {
     try {
       const response = await fetch(`${baseUrl}/sites/MLA/search?q=${query}`);
@@ -37,7 +37,7 @@ self.fetchItems = async function (req, res, next) {
     }
   };
 
-  // 4. Format response to send to frontend
+  // Format response that will be sent to frontend
   const formatItem = (items) => {
     let formattedItems = [];
 
@@ -65,34 +65,43 @@ self.fetchItems = async function (req, res, next) {
 
   const rawData = await fetchData();
 
-  // Return object with specified structure
+  // Send response with requested format
   if (rawData.results.length > 0) {
     res.send({
       author: author,
       items: await formatItem(rawData.results),
-      categories: await getCategories(rawData.results),
+      categories: await fetchCategories(rawData.results),
     });
   }
 };
 
 // Fetch item by id
 self.fetchItemById = async function (req, res, next) {
-  // 1. Get query from frontend request
-  const queryId = req.params.id;
-  const itemUrl = `${baseUrl}/items/${queryId}`;
+  // Get query from frontend request
+  const itemId = req.params.id;
+  const itemUrl = `${baseUrl}/items/${itemId}`;
 
-  // 2. Fetch item data by its id
+  let itemCategoryId = null;
+
+  // Function to fetch item data by its id
   const fetchItemData = async () => {
     try {
+      // First get response and parse it to json
       const response = await fetch(itemUrl);
       const itemData = await response.json();
 
+      // Then get category_id and store it in a variable.
+      // Will be used later when fetching the item's categories
+      itemCategoryId = await itemData.category_id;
+
+      // TODO: is it better to return en object with the raw data and the categories instead?
       return itemData;
     } catch (error) {
       console.log("error", error.message);
     }
   };
 
+  // Function to fetch item desctription
   const fetchItemDescription = async () => {
     try {
       const descriptionResponse = await fetch(`${itemUrl}/description`);
@@ -104,6 +113,21 @@ self.fetchItemById = async function (req, res, next) {
     }
   };
 
+  // Function to fetch item desctription
+  const fetchItemCategories = async () => {
+    try {
+      const itemCategoriesResponse = await fetch(
+        `${baseUrl}/categories/${itemCategoryId}`
+      );
+      const itemCategories = await itemCategoriesResponse.json();
+
+      return itemCategories.path_from_root;
+    } catch (error) {
+      console.log("error", error.message);
+    }
+  };
+
+  // Function to format item response to send to frontend
   const formatItemDetailData = async (item) => {
     const formattedDetail = {
       id: item.id,
@@ -117,6 +141,7 @@ self.fetchItemById = async function (req, res, next) {
       condition: item.condition,
       free_shipping: item.shipping.free_shipping,
       description: await fetchItemDescription(),
+      categories: await fetchItemCategories(),
     };
 
     return formattedDetail;
@@ -124,6 +149,7 @@ self.fetchItemById = async function (req, res, next) {
 
   const itemData = await fetchItemData();
 
+  // Send response with requested format
   res.send({
     author: author,
     item: await formatItemDetailData(itemData),
