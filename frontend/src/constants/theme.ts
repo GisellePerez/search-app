@@ -5,6 +5,7 @@ const theme = {
   fontSize: {
     extraSmall: "12px",
     small: "14px",
+    regular: "16px",
     medium: "18px",
     large: "24px",
     extraLarge: "46px",
@@ -16,7 +17,7 @@ const theme = {
   },
   color: {
     yellow: "#FFE600",
-    blue: "#3483FA",
+    blue1: "#3483FA",
     blue2: "#2968c8 ",
     gray1: "#333333",
     gray2: "#666666",
