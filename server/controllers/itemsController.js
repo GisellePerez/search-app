@@ -105,7 +105,7 @@ self.fetchItemById = async function (req, res, next) {
   };
 
   const formatItemDetailData = async (item) => {
-    const formatedDetail = {
+    const formattedDetail = {
       id: item.id,
       title: item.title,
       price: {
@@ -119,7 +119,7 @@ self.fetchItemById = async function (req, res, next) {
       description: await fetchItemDescription(),
     };
 
-    return formatedDetail;
+    return formattedDetail;
   };
 
   const itemData = await fetchItemData();

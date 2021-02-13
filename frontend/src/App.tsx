@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductsList from "./components/ProductsList/ProductsList";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 const Title = styled.h1`
   color: gray;
@@ -12,12 +13,11 @@ const Title = styled.h1`
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Title>Hello world!</Title>
-      </header>
       <section>
-        {/* TODO: add search bar here */}
         <Router>
+          <header className="App-header">
+            <SearchBar placeholder="Nunca dejes de buscar" />
+          </header>
           <ul>
             <li>
               <Link to="/items">Items</Link>
