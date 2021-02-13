@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 import apiRoutes from "../../constants/apiRoutes";
@@ -32,6 +32,10 @@ const List = styled.ul`
 
   li {
     border-bottom: 1px solid ${theme.color.gray4};
+
+    a {
+      text-decoration: none;
+    }
 
     &:last-of-type {
       border-bottom: none;
@@ -69,8 +73,10 @@ const ProductsList = (): ReactElement => {
       {products && products.length > 0 ? (
         <List>
           {products.map((item: ProductCardType) => (
-            <li>
-              <ProductCard key={item.id} {...item} />
+            <li key={item.id}>
+              <Link to={`/items/${item.id}`}>
+                <ProductCard {...item} />
+              </Link>
             </li>
           ))}
         </List>

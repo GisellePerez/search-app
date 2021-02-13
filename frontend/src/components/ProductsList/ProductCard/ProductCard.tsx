@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../constants/theme";
+
 import { ParagraphExtraSmall } from "../../../utils/Paragraph";
 import { H2, H3 } from "../../../utils/Titles";
 import { ProductCardType } from "../ProductsTypes";
@@ -21,11 +22,17 @@ const Wrapper = styled.article`
 `;
 
 const ImageWrapper = styled.div`
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
 
   img {
+    justify-self: center;
+
+    height: 100%;
     width: 100%;
+
+    object-fit: cover;
+    object-position: center;
     border-radius: 4px;
   }
 `;
@@ -49,30 +56,25 @@ const StateWrapper = styled.div`
 `;
 
 const ProductCard = (item: ProductCardType): ReactElement => {
-  const history = useHistory();
-
-  const handleClick = (): void => {
-    history.push(`/items/${item.id}`);
-  };
-
   return (
-    <Wrapper onClick={() => handleClick()}>
+    <Wrapper>
       <ImageWrapper>
         <picture>
-          <img src={item.picture} alt={item.title} title={item.title} />
+          <img src={item?.picture} alt={item?.title} title={item?.title} />
         </picture>
       </ImageWrapper>
 
       <div>
-        <Price>{item.price.amount}</Price>
-        <Title>{item.title}</Title>
+        <Price>{item?.price?.amount}</Price>
+        <Title>{item?.title}</Title>
       </div>
 
       <StateWrapper>
-        {/* TODO: add this to response in api */}
-        <ParagraphExtraSmall color={theme.color.gray2}>
-          Buenos Aires
-        </ParagraphExtraSmall>
+        {item?.address?.state_name ? (
+          <ParagraphExtraSmall color={theme.color.gray2}>
+            {item.address.state_name}
+          </ParagraphExtraSmall>
+        ) : null}
       </StateWrapper>
     </Wrapper>
   );
