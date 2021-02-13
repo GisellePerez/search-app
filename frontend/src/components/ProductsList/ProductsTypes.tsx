@@ -18,11 +18,6 @@ export type ProductCardType = {
   };
 };
 
-export type CategoryType = {
-  id: number;
-  name: string;
-};
-
 export type ProductDetailType = {
   id: string;
   title: string;
@@ -35,6 +30,6 @@ export type ProductDetailType = {
   condition: string;
   free_shipping: boolean;
   description: string;
-  categories: CategoryType[];
+  categories: string[];
   sold_quantity: number;
 };

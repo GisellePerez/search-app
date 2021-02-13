@@ -8,6 +8,13 @@ const author = {
   lastname: "Perez",
 };
 
+// Function to return only an array of strings for categories
+const formatCategories = async (categories) => {
+  if (categories && categories.length > 0) {
+    return categories.map((category) => category.name);
+  }
+};
+
 // Fetch list of items by query
 self.fetchItems = async function (req, res, next) {
   // Get query from frontend request
@@ -20,8 +27,11 @@ self.fetchItems = async function (req, res, next) {
         `${baseUrl}/categories/${items[0].category_id}`
       );
       const categoryData = await categoriesResponse.json();
+      const formattedCategories = await formatCategories(
+        categoryData.path_from_root
+      );
 
-      return categoryData.path_from_root;
+      return formattedCategories;
     }
   };
 
@@ -126,8 +136,11 @@ self.fetchItemById = async function (req, res, next) {
         `${baseUrl}/categories/${itemCategoryId}`
       );
       const itemCategories = await itemCategoriesResponse.json();
+      const formattedCategories = await formatCategories(
+        itemCategories.path_from_root
+      );
 
-      return itemCategories.path_from_root;
+      return formattedCategories;
     } catch (error) {
       console.log("error", error.message);
     }

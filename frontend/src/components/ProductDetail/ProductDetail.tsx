@@ -6,13 +6,14 @@ import theme from "../../constants/theme";
 import Button from "../../utils/Button/Button";
 import { ParagraphExtraSmall, ParagraphRegular } from "../../utils/Paragraph";
 import { H1, H2, H3 } from "../../utils/Titles";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import { ProductDetailType } from "../ProductsList/ProductsTypes";
 
 const Wrapper = styled.section`
   width: 100%;
   max-width: 1240px;
 
-  padding: 8px 20px;
+  padding: 0 20px;
   margin-right: auto;
   margin-left: auto;
 
@@ -128,6 +129,9 @@ const ProductDetail = (): ReactElement => {
       {!loading
         ? rawData?.item && (
             <Wrapper>
+              {itemData?.categories && itemData?.categories.length > 0 ? (
+                <Breadcrumb categories={itemData?.categories} />
+              ) : null}
               <ContentWrapper>
                 <TopWrapper>
                   <ImageWrapper>

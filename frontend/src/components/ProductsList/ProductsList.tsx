@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 import apiRoutes from "../../constants/apiRoutes";
 import theme from "../../constants/theme";
+import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import ProductCard from "./ProductCard/ProductCard";
 import { ProductCardType } from "./ProductsTypes";
 
@@ -11,7 +12,7 @@ const Wrapper = styled.section`
   width: 100%;
   max-width: 1240px;
 
-  padding: 8px 20px;
+  padding: 0 20px;
   margin-right: auto;
   margin-left: auto;
 
@@ -50,6 +51,7 @@ const ProductsList = (): ReactElement => {
   const searchParam = new URLSearchParams(location.search);
 
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const handleSearchByQuery = async () => {
     try {
@@ -59,6 +61,7 @@ const ProductsList = (): ReactElement => {
       const data = await response.json();
 
       setProducts(data?.items);
+      setCategories(data?.categories);
     } catch (error) {
       console.log("error", error.message);
     }
@@ -70,6 +73,7 @@ const ProductsList = (): ReactElement => {
 
   return (
     <Wrapper>
+      <Breadcrumb categories={categories} />
       {products && products.length > 0 ? (
         <List>
           {products.map((item: ProductCardType) => (
