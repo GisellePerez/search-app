@@ -129,7 +129,7 @@ self.fetchItemById = async function (req, res, next) {
 
   // Function to format item response to send to frontend
   const formatItemDetailData = async (item) => {
-    const formatedDetail = {
+    const formattedDetail = {
       id: item.id,
       title: item.title,
       price: {
@@ -144,7 +144,7 @@ self.fetchItemById = async function (req, res, next) {
       categories: await fetchItemCategories(),
     };
 
-    return formatedDetail;
+    return formattedDetail;
   };
 
   const itemData = await fetchItemData();

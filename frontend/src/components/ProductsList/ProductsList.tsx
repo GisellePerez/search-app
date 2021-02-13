@@ -1,15 +1,15 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import apiRoutes from "../../constants/apiRoutes";
+import ProductCard from "./ProductCard/ProductCard";
 
 export type ProductsListType = {};
 
 const ProductsList = (): ReactElement => {
   const location = useLocation();
   const searchParam = new URLSearchParams(location.search);
-  console.log("searchParam", searchParam.get("search"));
 
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
   const handleSearchByQuery = async () => {
     try {
@@ -19,7 +19,7 @@ const ProductsList = (): ReactElement => {
       const data = await response.json();
 
       console.log("search", data);
-      setProducts(data);
+      setProducts(data?.items);
     } catch (error) {
       console.log("error", error.message);
     }
@@ -31,7 +31,11 @@ const ProductsList = (): ReactElement => {
 
   return (
     <div>
-      <p>ProductsList works</p>
+      <p>ProductsList</p>
+      {products && products.length > 0
+        ? products.map((item) => <ProductCard {...item} />)
+        : "Cargando"}
+      {/* TODO: add loading and skeletons */}
     </div>
   );
 };
