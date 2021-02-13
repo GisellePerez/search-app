@@ -64,7 +64,7 @@ const Input = styled.input`
   width: 100%;
 
   font-family: ${theme.fontFamily.montserrat};
-  font-size: ${theme.fontSize.medium};
+  font-size: ${theme.fontSize.regular};
   font-weight: ${theme.fontWeight.light};
 
   border: none;
