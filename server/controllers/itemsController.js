@@ -70,7 +70,6 @@ self.fetchItems = async function (req, res, next) {
   };
 
   const rawData = await fetchData();
-  console.log(rawData.results);
 
   // Send response with requested format
   if (rawData.results.length > 0) {

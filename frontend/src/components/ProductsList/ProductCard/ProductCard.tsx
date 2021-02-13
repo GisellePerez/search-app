@@ -25,14 +25,15 @@ const ImageWrapper = styled.div`
   width: 180px;
   height: 180px;
 
+  text-align: center;
+
   img {
     justify-self: center;
 
     height: 100%;
     width: 100%;
 
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
     border-radius: 4px;
   }
 `;
