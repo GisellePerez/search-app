@@ -18,7 +18,6 @@ const ProductsList = (): ReactElement => {
       );
       const data = await response.json();
 
-      console.log("search", data);
       setProducts(data?.items);
     } catch (error) {
       console.log("error", error.message);
