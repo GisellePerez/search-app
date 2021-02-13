@@ -16,12 +16,13 @@ const theme = {
   },
   color: {
     yellow: "#FFE600",
+    blue: "#3483FA",
+    blue2: "#2968c8 ",
     gray1: "#333333",
     gray2: "#666666",
     gray3: "#999999",
     gray4: "#EEEEEE",
-    blue: "#3483FA",
-    blue2: "#2968c8 ",
+    white: "#ffffff",
   },
   breakpoints: {
     desktopLG: "1440px",
