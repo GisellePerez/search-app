@@ -19,9 +19,16 @@ const Wrapper = styled.article`
   &:hover {
     cursor: pointer;
   }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 16px;
+  }
 `;
 
 const ImageWrapper = styled.div`
+  place-self: center;
+
   width: 180px;
   height: 180px;
 
@@ -36,16 +43,38 @@ const ImageWrapper = styled.div`
     object-fit: contain;
     border-radius: 4px;
   }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    width: 30vw;
+    height: 30vw;
+  }
+`;
+
+const SideInfoWrapper = styled.div`
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 `;
 
 const Price = styled(H2)`
   margin-top: 16px;
   margin-bottom: 32px;
   height: 30px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    height: auto;
+  }
 `;
 
 const Title = styled(H3)`
   width: 80%;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    width: 100%;
+  }
 `;
 
 const StateWrapper = styled.div`
@@ -54,6 +83,14 @@ const StateWrapper = styled.div`
 
   margin-top: 16px;
   height: 30px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    display: none;
+
+    p {
+      font-size: ${theme.fontSize.medium};
+    }
+  }
 `;
 
 const ProductCard = (item: ProductCardType): ReactElement => {
@@ -65,7 +102,7 @@ const ProductCard = (item: ProductCardType): ReactElement => {
         </picture>
       </ImageWrapper>
 
-      <div>
+      <SideInfoWrapper>
         <Price>
           <span>
             {item?.price?.currency === "ARS" ? "$" : `${item?.price?.currency}`}
@@ -76,7 +113,7 @@ const ProductCard = (item: ProductCardType): ReactElement => {
           </span>
         </Price>
         <Title>{item?.title}</Title>
-      </div>
+      </SideInfoWrapper>
 
       <StateWrapper>
         {item?.address?.state_name ? (

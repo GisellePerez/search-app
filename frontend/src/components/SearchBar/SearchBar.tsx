@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
     width: 100%;
-    padding: 0 16px;
+    padding: 8px 16px;
   }
 `;
 

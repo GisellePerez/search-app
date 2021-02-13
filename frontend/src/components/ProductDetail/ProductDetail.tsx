@@ -45,10 +45,19 @@ const TopWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-gap: 48px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    grid-template-columns: 1fr;
+    grid-gap: 16px;
+  }
 `;
 
 const TopInfoWrapper = styled.div`
   margin-right: 32px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-right: 0;
+  }
 `;
 
 const Subtitle = styled.div`
@@ -73,15 +82,45 @@ const Subtitle = styled.div`
 
 const Title = styled(H1)`
   margin-bottom: 32px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-bottom: 16px;
+    font-size: ${theme.fontSize.medium};
+  }
 `;
 
 const DescriptionTitle = styled(H3)`
   margin-top: 64px;
   margin-bottom: 32px;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-top: 24px;
+    margin-bottom: 16px;
+
+    font-size: ${theme.fontSize.medium};
+  }
 `;
 
 const DescriptionTextWrapper = styled.div`
   width: 70%;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    width: 100%;
+  }
+`;
+
+const Price = styled(H2)`
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    font-size: ${theme.fontSize.large};
+  }
+`;
+
+const TitlesWrapper = styled.div<{ position: string }>`
+  display: ${({ position }) => (position === "top" ? "none" : "block")};
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    display: ${({ position }) => (position === "top" ? "block" : "none")};
+  }
 `;
 
 export type ProductDetailResponseType = {
@@ -120,6 +159,34 @@ const ProductDetail = (): ReactElement => {
 
   const itemData = rawData?.item && rawData.item;
 
+  type TitlesType = {
+    itemData: ProductDetailType;
+    position: boolean;
+  };
+
+  const Titles = ({ itemData, position }: any): ReactElement => {
+    return (
+      <TitlesWrapper position={position}>
+        <Subtitle>
+          <ParagraphExtraSmall color={theme.color.gray2}>
+            {itemData?.condition}
+          </ParagraphExtraSmall>
+          {itemData?.sold_quantity ? (
+            <>
+              <span>-</span>
+              <ParagraphExtraSmall color={theme.color.gray2}>
+                {`${itemData?.sold_quantity} vendidos`}
+              </ParagraphExtraSmall>
+            </>
+          ) : null}
+        </Subtitle>
+        <Title size={theme.fontSize.large} weight={theme.fontWeight.medium}>
+          {itemData?.title}
+        </Title>
+      </TitlesWrapper>
+    );
+  };
+
   const handleBuyClick = (): void => {
     // This function should trigger buying process
   };
@@ -134,6 +201,7 @@ const ProductDetail = (): ReactElement => {
               ) : null}
               <ContentWrapper>
                 <TopWrapper>
+                  <Titles itemData={itemData} position="top" />
                   <ImageWrapper>
                     <picture>
                       <img
@@ -145,28 +213,20 @@ const ProductDetail = (): ReactElement => {
                   </ImageWrapper>
 
                   <TopInfoWrapper>
-                    <Subtitle>
-                      <ParagraphExtraSmall color={theme.color.gray2}>
-                        {itemData?.condition}
-                      </ParagraphExtraSmall>
-                      {itemData?.sold_quantity ? (
-                        <>
-                          <span>-</span>
-                          <ParagraphExtraSmall color={theme.color.gray2}>
-                            {`${itemData?.sold_quantity} vendidos`}
-                          </ParagraphExtraSmall>
-                        </>
-                      ) : null}
-                    </Subtitle>
-                    <Title
-                      size={theme.fontSize.large}
-                      weight={theme.fontWeight.medium}
-                    >
-                      {itemData?.title}
-                    </Title>
-                    <H2 size={theme.fontSize.extraLarge}>
-                      {`${itemData?.price?.currency} ${itemData?.price?.amount}`}
-                    </H2>
+                    <Titles itemData={itemData} position="bottom" />
+                    <Price size={theme.fontSize.extraLarge}>
+                      <span>
+                        {itemData?.price?.currency === "ARS"
+                          ? "$"
+                          : `${itemData?.price?.currency}`}
+                      </span>
+                      <span>{itemData?.price?.amount}</span>
+                      <span>
+                        {itemData?.price?.decimals
+                          ? `${itemData?.price?.decimals}`
+                          : null}
+                      </span>
+                    </Price>
                     <Button type="primary" onClick={handleBuyClick} fullWidth>
                       Comprar
                     </Button>

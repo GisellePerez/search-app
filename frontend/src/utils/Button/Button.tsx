@@ -24,6 +24,11 @@ const PrimaryButton = styled.button<{ fullWidth: boolean }>`
     cursor: pointer;
     background-color: ${theme.color.blue2};
   }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    height: 42px;
+    line-height: 42px;
+  }
 `;
 
 type ButtonType = {
