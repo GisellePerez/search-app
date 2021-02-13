@@ -1,4 +1,10 @@
 import React, { ReactElement } from "react";
+import styled from "styled-components";
+import theme from "../../../constants/theme";
+import { ParagraphExtraLarge } from "../../../utils/Paragraph";
+import { H2 } from "../../../utils/Titles";
+
+const Title = styled.p``;
 
 export type ProductCardType = {
   id: string;
@@ -15,7 +21,11 @@ export type ProductCardType = {
 };
 
 const ProductCard = (item: ProductCardType): ReactElement => {
-  return <p>{item.title}</p>;
+  return (
+    <div>
+      <H2>{item.title}</H2>
+    </div>
+  );
 };
 
 export default ProductCard;

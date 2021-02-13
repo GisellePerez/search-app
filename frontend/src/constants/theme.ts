@@ -21,6 +21,16 @@ const theme = {
     gray3: "#999999",
     gray4: "#EEEEEE",
     blue: "#3483FA",
+    blue2: "#2968c8 ",
+  },
+  breakpoints: {
+    desktopLG: "1440px",
+    desktopMD: "1200px",
+    desktopSM: "1024px",
+    mobileLG: "768px",
+    mobileMD: "425px",
+    mobileSM: "375px",
+    mobileXS: "320px",
   },
 };
 
