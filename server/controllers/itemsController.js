@@ -18,8 +18,8 @@ const formatPrice = (currency_id, price) => {
 
     // Assing first element of array to amount and second element to decimals
     formattedPrice.currency = currency_id;
-    formattedPrice.amount = priceArray[0];
-    formattedPrice.decimals = priceArray[1] ? `.{priceArray[1]}` : ".00";
+    formattedPrice.amount = parseInt(priceArray[0]);
+    formattedPrice.decimals = priceArray[1] ? parseInt(priceArray[1]) : 0;
   }
 
   return formattedPrice;

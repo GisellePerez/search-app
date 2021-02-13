@@ -66,7 +66,15 @@ const ProductCard = (item: ProductCardType): ReactElement => {
       </ImageWrapper>
 
       <div>
-        <Price>{item?.price?.amount}</Price>
+        <Price>
+          <span>
+            {item?.price?.currency === "ARS" ? "$" : `${item?.price?.currency}`}
+          </span>
+          <span>{item?.price?.amount}</span>
+          <span>
+            {item?.price?.decimals > 0 ? `.${item?.price?.decimals}` : null}
+          </span>
+        </Price>
         <Title>{item?.title}</Title>
       </div>
 
