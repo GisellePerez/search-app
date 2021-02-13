@@ -72,6 +72,22 @@ const ParagraphMedium = ({
   );
 };
 
+const ParagraphRegular = ({
+  fontWeight,
+  color,
+  children,
+}: ParagraphType): ReactElement => {
+  return (
+    <Paragraph
+      fontSize={theme.fontSize.regular}
+      fontWeight={fontWeight ? fontWeight : theme.fontWeight.light}
+      color={color ? color : theme.color.gray1}
+    >
+      {children}
+    </Paragraph>
+  );
+};
+
 const ParagraphLarge = ({
   fontWeight,
   color,
@@ -107,6 +123,7 @@ const ParagraphExtraLarge = ({
 export {
   ParagraphExtraSmall,
   ParagraphSmall,
+  ParagraphRegular,
   ParagraphMedium,
   ParagraphLarge,
   ParagraphExtraLarge,
