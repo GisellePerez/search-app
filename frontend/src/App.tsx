@@ -19,16 +19,6 @@ function App() {
           <header className="App-header">
             <SearchBar placeholder="Nunca dejes de buscar" />
           </header>
-          {/* TODO: remove this */}
-          {/* <ul>
-              <li>
-                <Link to="/items">Items</Link>
-              </li>
-              <li>
-                <Link to="/items/MLA601795056">Item id</Link>
-              </li>
-            <hr />
-          </ul> */}
 
           <Switch>
             <Route exact path="/items" component={ProductsList} />
