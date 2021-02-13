@@ -8,6 +8,23 @@ const author = {
   lastname: "Perez",
 };
 
+// Function to format the price and the decimals
+const formatPrice = (currency_id, price) => {
+  let formattedPrice = {};
+
+  if (price) {
+    // Turn number into a string and then create an array to separate first part of the number from decimals
+    const priceArray = ("" + price).split(".");
+
+    // Assing first element of array to amount and second element to decimals
+    formattedPrice.currency = currency_id;
+    formattedPrice.amount = priceArray[0];
+    formattedPrice.decimals = priceArray[1] ? `.{priceArray[1]}` : ".00";
+  }
+
+  return formattedPrice;
+};
+
 // Function to return only an array of strings for categories
 const formatCategories = async (categories) => {
   if (categories && categories.length > 0) {
@@ -48,7 +65,7 @@ self.fetchItems = async function (req, res, next) {
   };
 
   // Format response that will be sent to frontend
-  const formatItem = (items) => {
+  const formatItem = async (items) => {
     let formattedItems = [];
 
     if (items && items.length > 0) {
@@ -57,11 +74,7 @@ self.fetchItems = async function (req, res, next) {
           return {
             id: item.id,
             title: item.title,
-            price: {
-              currency: item.currency_id,
-              amount: item.price,
-              decimals: item.price, // TODO: create decimals based on amount
-            },
+            price: formatPrice(item.currency_id, item.price),
             picture: item.thumbnail,
             condition: item.condition,
             free_shipping: item.shipping.free_shipping,
@@ -164,11 +177,7 @@ self.fetchItemById = async function (req, res, next) {
     const formattedDetail = {
       id: item.id,
       title: item.title,
-      price: {
-        currency: item.currency_id,
-        amount: item.price,
-        decimals: item.price, // TODO: build decimals
-      },
+      price: formatPrice(item.currency_id, item.price),
       picture: item.thumbnail,
       condition: await translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
