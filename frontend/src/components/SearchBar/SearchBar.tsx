@@ -10,6 +10,10 @@ import searchIcon from "../../assets/ic_Search.png";
 import searchIcon2x from "../../assets/ic_Search@2x.png";
 
 const Wrapper = styled.div`
+  background: ${theme.color.yellow};
+`;
+
+const ContentWrapper = styled.div`
   display: grid;
   grid-template-columns: 44px 1fr;
   grid-gap: 24px;
@@ -22,7 +26,6 @@ const Wrapper = styled.div`
   margin-left: auto;
 
   box-sizing: border-box;
-  background: ${theme.color.yellow};
 
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
     width: 100%;
@@ -146,39 +149,41 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
 
   return (
     <Wrapper>
-      <LogoWrapper>
-        <Link to="/">
-          <picture>
-            <source
-              srcSet={logo2x}
-              media="(min-width:650px)"
-              type="image/png"
-            />
-            <img src={logo} alt="Mercado Libre" />
-          </picture>
-        </Link>
-      </LogoWrapper>
-      <Form>
-        <Label>{label ? label : "Ingresá lo que quieras encontrar"}</Label>
-        <Input
-          aria-label="Ingresá lo que quieras encontrar"
-          type="text"
-          name="search"
-          placeholder={placeholder ? placeholder : ""}
-          onChange={(e) => handleChange(e)}
-          value={inputValue}
-        />
-        <Button type="submit" onClick={(e) => handleSubmit(e)}>
-          <picture>
-            <source
-              srcSet={searchIcon2x}
-              media="(min-width:650px)"
-              type="image/png"
-            />
-            <img src={searchIcon} alt="Buscar" />
-          </picture>
-        </Button>
-      </Form>
+      <ContentWrapper>
+        <LogoWrapper>
+          <Link to="/">
+            <picture>
+              <source
+                srcSet={logo2x}
+                media="(min-width:650px)"
+                type="image/png"
+              />
+              <img src={logo} alt="Mercado Libre" />
+            </picture>
+          </Link>
+        </LogoWrapper>
+        <Form>
+          <Label>{label ? label : "Ingresá lo que quieras encontrar"}</Label>
+          <Input
+            aria-label="Ingresá lo que quieras encontrar"
+            type="text"
+            name="search"
+            placeholder={placeholder ? placeholder : ""}
+            onChange={(e) => handleChange(e)}
+            value={inputValue}
+          />
+          <Button type="submit" onClick={(e) => handleSubmit(e)}>
+            <picture>
+              <source
+                srcSet={searchIcon2x}
+                media="(min-width:650px)"
+                type="image/png"
+              />
+              <img src={searchIcon} alt="Buscar" />
+            </picture>
+          </Button>
+        </Form>
+      </ContentWrapper>
     </Wrapper>
   );
 };
