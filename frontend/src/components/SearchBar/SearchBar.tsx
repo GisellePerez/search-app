@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import styled from "styled-components";
 import theme from "../../constants/theme";
@@ -134,7 +134,10 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     if (inputValue !== "") {
-      history.push({ pathname: "/items", search: `?search=${inputValue}` });
+      history.push({
+        pathname: "/items",
+        search: `?search=${inputValue}`,
+      });
     }
 
     // Clear input after search is done
@@ -144,7 +147,7 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
   return (
     <Wrapper>
       <LogoWrapper>
-        <a href="/">
+        <Link to="/">
           <picture>
             <source
               srcSet={logo2x}
@@ -153,7 +156,7 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
             />
             <img src={logo} alt="Mercado Libre" />
           </picture>
-        </a>
+        </Link>
       </LogoWrapper>
       <Form>
         <Label>{label ? label : "Ingresá lo que quieras encontrar"}</Label>

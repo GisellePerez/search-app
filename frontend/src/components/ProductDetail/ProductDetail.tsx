@@ -215,11 +215,7 @@ const ProductDetail = (): ReactElement => {
                   <TopInfoWrapper>
                     <Titles itemData={itemData} position="bottom" />
                     <Price size={theme.fontSize.extraLarge}>
-                      <span>
-                        {itemData?.price?.currency === "ARS"
-                          ? "$"
-                          : `${itemData?.price?.currency}`}
-                      </span>
+                      <span>{itemData?.price?.currency}</span>
                       <span>{itemData?.price?.amount}</span>
                       <span>
                         {itemData?.price?.decimals

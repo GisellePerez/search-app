@@ -8,8 +8,15 @@ const author = {
   lastname: "Perez",
 };
 
+const fetchCurrencySymbol = async (currencyId) => {
+  const response = await fetch(`${baseUrl}/currencies/${currencyId}`);
+  const currencyData = await response.json();
+
+  return currencyData.symbol;
+};
+
 // Function to format the price and the decimals
-const formatPrice = (currency_id, price) => {
+const formatPrice = async (currencyId, price) => {
   let formattedPrice = {};
 
   if (price) {
@@ -17,7 +24,7 @@ const formatPrice = (currency_id, price) => {
     const priceArray = ("" + price).split(".");
 
     // Assing first element of array to amount and second element to decimals
-    formattedPrice.currency = currency_id;
+    formattedPrice.currency = await fetchCurrencySymbol(currencyId);
     formattedPrice.amount = parseInt(priceArray[0]);
     formattedPrice.decimals = priceArray[1] ? parseInt(priceArray[1]) : 0;
   }
@@ -69,24 +76,26 @@ self.fetchItems = async function (req, res, next) {
     let formattedItems = [];
 
     if (items && items.length > 0) {
-      formattedItems = items.map((item) => {
-        if (item) {
-          return {
-            id: item.id,
-            title: item.title,
-            price: formatPrice(item.currency_id, item.price),
-            picture: item.thumbnail,
-            condition: item.condition,
-            free_shipping: item.shipping.free_shipping,
-            address: {
-              state_id: item.address.state_id,
-              state_name: item.address.state_name,
-              city_id: item.address.city_id,
-              city_name: item.address.city_name,
-            },
-          };
-        }
-      });
+      formattedItems = await Promise.all(
+        items.map(async (item) => {
+          if (item) {
+            return {
+              id: item.id,
+              title: item.title,
+              price: await formatPrice(item.currency_id, item.price),
+              picture: item.thumbnail,
+              condition: item.condition,
+              free_shipping: item.shipping.free_shipping,
+              address: {
+                state_id: item.address.state_id,
+                state_name: item.address.state_name,
+                city_id: item.address.city_id,
+                city_name: item.address.city_name,
+              },
+            };
+          }
+        })
+      );
     }
 
     return formattedItems;
@@ -177,7 +186,7 @@ self.fetchItemById = async function (req, res, next) {
     const formattedDetail = {
       id: item.id,
       title: item.title,
-      price: formatPrice(item.currency_id, item.price),
+      price: await formatPrice(item.currency_id, item.price),
       picture: item.thumbnail,
       condition: await translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
