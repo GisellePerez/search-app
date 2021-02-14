@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import apiRoutes from "../../constants/apiRoutes";
 import theme from "../../constants/theme";
+
 import Button from "../../utils/Button/Button";
 import formatDecimals from "../../utils/formatDecimals";
 import formatNumbersWithDots from "../../utils/formatNumbersWithDots";
@@ -10,6 +11,9 @@ import { ParagraphExtraSmall, ParagraphRegular } from "../../utils/Paragraph";
 import { H1, H2, H3 } from "../../utils/Titles";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import { ProductDetailType } from "../ProductsList/ProductsTypes";
+
+import freeShippingIcon from "../../assets/ic_shipping.png";
+import freeShippingIcon2x from "../../assets/ic_shipping@2x.png";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -111,9 +115,32 @@ const DescriptionTextWrapper = styled.div`
   }
 `;
 
+const PriceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Price = styled(H2)`
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
     font-size: ${theme.fontSize.large};
+  }
+`;
+
+const FreeShippingWrapper = styled.div`
+  margin-left: 8px;
+  width: 32px;
+  height: 32px;
+
+  img {
+    justify-self: center;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -216,13 +243,27 @@ const ProductDetail = (): ReactElement => {
 
                   <TopInfoWrapper>
                     <Titles itemData={itemData} position="bottom" />
-                    <Price size={theme.fontSize.extraLarge}>
-                      <span>{itemData?.price?.currency}</span>
-                      <span>
-                        {formatNumbersWithDots(itemData?.price?.amount)}
-                      </span>
-                      <span>{formatDecimals(itemData?.price?.decimals)}</span>
-                    </Price>
+                    <PriceWrapper>
+                      <Price size={theme.fontSize.extraLarge}>
+                        <span>{itemData?.price?.currency}</span>
+                        <span>
+                          {formatNumbersWithDots(itemData?.price?.amount)}
+                        </span>
+                        <span>{formatDecimals(itemData?.price?.decimals)}</span>
+                      </Price>
+                      {itemData?.free_shipping ? (
+                        <FreeShippingWrapper>
+                          <picture>
+                            <source
+                              srcSet={freeShippingIcon2x}
+                              media="(min-width:650px)"
+                              type="image/png"
+                            />
+                            <img src={freeShippingIcon} alt="Envío gratis" />
+                          </picture>
+                        </FreeShippingWrapper>
+                      ) : null}
+                    </PriceWrapper>
                     <Button type="primary" onClick={handleBuyClick} fullWidth>
                       Comprar
                     </Button>

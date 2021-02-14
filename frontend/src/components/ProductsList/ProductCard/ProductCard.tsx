@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../constants/theme";
 import formatDecimals from "../../../utils/formatDecimals";
@@ -8,6 +7,9 @@ import formatNumbersWithDots from "../../../utils/formatNumbersWithDots";
 import { ParagraphExtraSmall } from "../../../utils/Paragraph";
 import { H2, H3 } from "../../../utils/Titles";
 import { ProductCardType } from "../ProductsTypes";
+
+import freeShippingIcon from "../../../assets/ic_shipping.png";
+import freeShippingIcon2x from "../../../assets/ic_shipping@2x.png";
 
 const Wrapper = styled.article`
   display: grid;
@@ -59,15 +61,32 @@ const SideInfoWrapper = styled.div`
   }
 `;
 
+const PriceWrapper = styled.div`
+  display: flex;
+`;
+
 const Price = styled(H2)`
   margin-top: 16px;
   margin-bottom: 32px;
   height: 30px;
 
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
-    margin-top: 16px;
     margin-bottom: 8px;
     height: auto;
+  }
+`;
+
+const FreeShippingWrapper = styled.div`
+  margin-top: 18px;
+  margin-left: 8px;
+  width: 24px;
+  height: 24px;
+
+  img {
+    justify-self: center;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
   }
 `;
 
@@ -105,11 +124,26 @@ const ProductCard = (item: ProductCardType): ReactElement => {
       </ImageWrapper>
 
       <SideInfoWrapper>
-        <Price>
-          <span>{item?.price?.currency}</span>
-          <span>{formatNumbersWithDots(item?.price?.amount)}</span>
-          <span>{formatDecimals(item?.price?.decimals)}</span>
-        </Price>
+        <PriceWrapper>
+          <Price>
+            <span>{item?.price?.currency}</span>
+            <span>{formatNumbersWithDots(item?.price?.amount)}</span>
+            <span>{formatDecimals(item?.price?.decimals)}</span>
+          </Price>
+          {item?.free_shipping ? (
+            <FreeShippingWrapper>
+              <picture>
+                <source
+                  srcSet={freeShippingIcon2x}
+                  media="(min-width:650px)"
+                  type="image/png"
+                />
+                <img src={freeShippingIcon} alt="Envío gratis" />
+              </picture>
+            </FreeShippingWrapper>
+          ) : null}
+        </PriceWrapper>
+
         <Title>{item?.title}</Title>
       </SideInfoWrapper>
 
