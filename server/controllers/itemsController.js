@@ -8,6 +8,37 @@ const author = {
   lastname: "Perez",
 };
 
+const fetchCurrencySymbol = async (currencyId) => {
+  const response = await fetch(`${baseUrl}/currencies/${currencyId}`);
+  const currencyData = await response.json();
+
+  return currencyData.symbol;
+};
+
+// Function to format the price and the decimals
+const formatPrice = async (currencyId, price) => {
+  let formattedPrice = {};
+
+  if (price) {
+    // Turn number into a string and then create an array to separate first part of the number from decimals
+    const priceArray = ("" + price).split(".");
+
+    // Assing first element of array to amount and second element to decimals
+    formattedPrice.currency = await fetchCurrencySymbol(currencyId);
+    formattedPrice.amount = parseInt(priceArray[0]);
+    formattedPrice.decimals = priceArray[1] ? parseInt(priceArray[1]) : 0;
+  }
+
+  return formattedPrice;
+};
+
+// Function to return only an array of strings for categories
+const formatCategories = async (categories) => {
+  if (categories && categories.length > 0) {
+    return categories.map((category) => category.name);
+  }
+};
+
 // Fetch list of items by query
 self.fetchItems = async function (req, res, next) {
   // Get query from frontend request
@@ -20,8 +51,11 @@ self.fetchItems = async function (req, res, next) {
         `${baseUrl}/categories/${items[0].category_id}`
       );
       const categoryData = await categoriesResponse.json();
+      const formattedCategories = await formatCategories(
+        categoryData.path_from_root
+      );
 
-      return categoryData.path_from_root;
+      return formattedCategories;
     }
   };
 
@@ -38,26 +72,30 @@ self.fetchItems = async function (req, res, next) {
   };
 
   // Format response that will be sent to frontend
-  const formatItem = (items) => {
+  const formatItem = async (items) => {
     let formattedItems = [];
 
     if (items && items.length > 0) {
-      formattedItems = items.map((item) => {
-        if (item) {
-          return {
-            id: item.id,
-            title: item.title,
-            price: {
-              currency: item.currency_id,
-              amount: item.price,
-              decimals: item.price, // TODO: create decimals based on amount
-            },
-            picture: item.thumbnail,
-            condition: item.condition,
-            free_shipping: item.shipping.free_shipping,
-          };
-        }
-      });
+      formattedItems = await Promise.all(
+        items.map(async (item) => {
+          if (item) {
+            return {
+              id: item.id,
+              title: item.title,
+              price: await formatPrice(item.currency_id, item.price),
+              picture: item.thumbnail,
+              condition: item.condition,
+              free_shipping: item.shipping.free_shipping,
+              address: {
+                state_id: item.address.state_id,
+                state_name: item.address.state_name,
+                city_id: item.address.city_id,
+                city_name: item.address.city_name,
+              },
+            };
+          }
+        })
+      );
     }
 
     return formattedItems;
@@ -120,10 +158,26 @@ self.fetchItemById = async function (req, res, next) {
         `${baseUrl}/categories/${itemCategoryId}`
       );
       const itemCategories = await itemCategoriesResponse.json();
+      const formattedCategories = await formatCategories(
+        itemCategories.path_from_root
+      );
 
-      return itemCategories.path_from_root;
+      return formattedCategories;
     } catch (error) {
       console.log("error", error.message);
+    }
+  };
+
+  const translateCondition = async (condition) => {
+    switch (condition) {
+      case "new":
+        return "Nuevo";
+
+      case "used":
+        return "Usado";
+
+      default:
+        return condition;
     }
   };
 
@@ -132,16 +186,13 @@ self.fetchItemById = async function (req, res, next) {
     const formattedDetail = {
       id: item.id,
       title: item.title,
-      price: {
-        currency: item.currency_id,
-        amount: item.price,
-        decimals: item.price, // TODO: build decimals
-      },
+      price: await formatPrice(item.currency_id, item.price),
       picture: item.thumbnail,
-      condition: item.condition,
+      condition: await translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
       description: await fetchItemDescription(),
       categories: await fetchItemCategories(),
+      sold_quantity: item.sold_quantity,
     };
 
     return formattedDetail;
