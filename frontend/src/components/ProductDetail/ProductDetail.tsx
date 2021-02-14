@@ -4,6 +4,8 @@ import styled from "styled-components";
 import apiRoutes from "../../constants/apiRoutes";
 import theme from "../../constants/theme";
 import Button from "../../utils/Button/Button";
+import formatDecimals from "../../utils/formatDecimals";
+import formatNumbersWithDots from "../../utils/formatNumbersWithDots";
 import { ParagraphExtraSmall, ParagraphRegular } from "../../utils/Paragraph";
 import { H1, H2, H3 } from "../../utils/Titles";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
@@ -216,12 +218,10 @@ const ProductDetail = (): ReactElement => {
                     <Titles itemData={itemData} position="bottom" />
                     <Price size={theme.fontSize.extraLarge}>
                       <span>{itemData?.price?.currency}</span>
-                      <span>{itemData?.price?.amount}</span>
                       <span>
-                        {itemData?.price?.decimals
-                          ? `${itemData?.price?.decimals}`
-                          : null}
+                        {formatNumbersWithDots(itemData?.price?.amount)}
                       </span>
+                      <span>{formatDecimals(itemData?.price?.decimals)}</span>
                     </Price>
                     <Button type="primary" onClick={handleBuyClick} fullWidth>
                       Comprar

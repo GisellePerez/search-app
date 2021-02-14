@@ -2,6 +2,8 @@ import React, { ReactElement } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../../constants/theme";
+import formatDecimals from "../../../utils/formatDecimals";
+import formatNumbersWithDots from "../../../utils/formatNumbersWithDots";
 
 import { ParagraphExtraSmall } from "../../../utils/Paragraph";
 import { H2, H3 } from "../../../utils/Titles";
@@ -105,10 +107,8 @@ const ProductCard = (item: ProductCardType): ReactElement => {
       <SideInfoWrapper>
         <Price>
           <span>{item?.price?.currency}</span>
-          <span>{item?.price?.amount}</span>
-          <span>
-            {item?.price?.decimals > 0 ? `.${item?.price?.decimals}` : null}
-          </span>
+          <span>{formatNumbersWithDots(item?.price?.amount)}</span>
+          <span>{formatDecimals(item?.price?.decimals)}</span>
         </Price>
         <Title>{item?.title}</Title>
       </SideInfoWrapper>
