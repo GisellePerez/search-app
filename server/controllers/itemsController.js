@@ -52,7 +52,7 @@ const formatPrice = async (currencyId, price) => {
  * @param   {{id: string; name: string;}} categories  Array of categories
  * @returns {string[]} Array of categories' names
  */
-const formatCategories = async (categories) => {
+const formatCategories = (categories) => {
   if (categories && categories.length > 0) {
     return categories.map((category) => category.name);
   }
@@ -72,7 +72,7 @@ self.fetchItems = async function (req, res, next) {
 
   /** Function to fetch categories by item's category_id
    *
-   * @param   {Item[]} items array of items reurned by the api
+   * @param   items array of objects with raw data returned by the api
    * @returns {string[]} categories formatted for frontend
    */
   const fetchCategories = async (items) => {
@@ -81,9 +81,7 @@ self.fetchItems = async function (req, res, next) {
         `${baseUrl}/categories/${items[0].category_id}`
       );
       const categoryData = await categoriesResponse.json();
-      const formattedCategories = await formatCategories(
-        categoryData.path_from_root
-      );
+      const formattedCategories = formatCategories(categoryData.path_from_root);
 
       return formattedCategories;
     }
@@ -92,7 +90,7 @@ self.fetchItems = async function (req, res, next) {
   /**
    * Function to fetch data from api based on search query
    *
-   * @returns {FormattedItem[]} items formatted for frontend
+   * @returns array of objects formatted for frontend
    */
   const fetchData = async () => {
     try {
@@ -108,8 +106,8 @@ self.fetchItems = async function (req, res, next) {
   /**
    * Format response that will be sent to frontend
    *
-   * @param   {Item[]} items array of items reurned by the api
-   * @returns {FormattedItem[]} items formatted for frontend
+   * @param   items array of objects with raw data returned by the api
+   * @returns array of objects formatted for frontend
    */
   const formatItem = async (items) => {
     let formattedItems = [];
@@ -158,7 +156,7 @@ self.fetchItems = async function (req, res, next) {
  * @param   {any} req
  * @param   {any} res
  * @param   {any} next
- * @returns {FormattedItemDetailData} item with format requested for frontend
+ * @returns object with format requested for frontend
  */
 self.fetchItemById = async function (req, res, next) {
   //** Get query from frontend request */
@@ -170,7 +168,7 @@ self.fetchItemById = async function (req, res, next) {
   /**
    * Function to fetch item data by its id
    *
-   * @returns {ItemDetailData} item's raw data from api
+   * @returns object with item's raw data from api
    */
   const fetchItemData = async () => {
     try {
@@ -215,7 +213,7 @@ self.fetchItemById = async function (req, res, next) {
         `${baseUrl}/categories/${itemCategoryId}`
       );
       const itemCategories = await itemCategoriesResponse.json();
-      const formattedCategories = await formatCategories(
+      const formattedCategories = formatCategories(
         itemCategories.path_from_root
       );
 
@@ -231,7 +229,7 @@ self.fetchItemById = async function (req, res, next) {
    * @param   {string} condition condition from api in English. E.g.: 'new'
    * @returns {string} condition in Spanish. E.g.: 'Nuevo'
    */
-  const translateCondition = async (condition) => {
+  const translateCondition = (condition) => {
     switch (condition) {
       case "new":
         return "Nuevo";
@@ -245,18 +243,36 @@ self.fetchItemById = async function (req, res, next) {
   };
 
   /**
+   * Function to return item's image url.
+   *
+   * @param   pictures array of objects with picture info from api
+   * @returns {string} item first picture secure url or url
+   */
+  const formatPictures = (pictures) => {
+    let pictureUrl = "";
+
+    if (pictures && pictures.length > 0) {
+      pictureUrl = pictures[0].secure_url
+        ? pictures[0].secure_url
+        : pictures[0].url;
+    }
+
+    return pictureUrl;
+  };
+
+  /**
    * Function to format item response to send to frontend.
    *
-   * @param   {Item} item item's raw data from api
-   * @returns {FormattedItemDetailData} item formatted as requested to send to frontend
+   * @param   item object with item's raw data from api
+   * @returns object with item's data formatted as requested to send to frontend
    */
   const formatItemDetailData = async (item) => {
     const formattedDetail = {
       id: item.id,
       title: item.title,
       price: await formatPrice(item.currency_id, item.price),
-      picture: item.thumbnail,
-      condition: await translateCondition(item.condition),
+      picture: formatPictures(item.pictures),
+      condition: translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
       description: await fetchItemDescription(),
       categories: await fetchItemCategories(),
