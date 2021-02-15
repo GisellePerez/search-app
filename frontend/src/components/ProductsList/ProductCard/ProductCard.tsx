@@ -4,8 +4,8 @@ import theme from "../../../constants/theme";
 import formatDecimals from "../../../utils/formatDecimals";
 import formatNumbersWithDots from "../../../utils/formatNumbersWithDots";
 
-import { ParagraphExtraSmall } from "../../../utils/Paragraph";
-import { H2, H3 } from "../../../utils/Titles";
+import { ParagraphExtraSmall } from "../../shared/Paragraph/Paragraph";
+import { H2, H3 } from "../../shared/Titles/Titles";
 import { ProductCardType } from "../ProductsTypes";
 
 import freeShippingIcon from "../../../assets/ic_shipping.png";

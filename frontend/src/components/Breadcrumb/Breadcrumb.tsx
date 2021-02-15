@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 import theme from "../../constants/theme";
-import { ParagraphSmall } from "../../utils/Paragraph";
+import { ParagraphSmall } from "../shared/Paragraph/Paragraph";
 
 const Wrapper = styled.section`
   margin: 16px 0;
