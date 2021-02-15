@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import theme from "../../../constants/theme";
-import Skeleton from "./Skeleton";
+import React from 'react';
+import styled from 'styled-components';
+import theme from '../../../constants/theme';
+import Skeleton from './Skeleton';
 
 const TopContentWrapper = styled.section`
   display: grid;
@@ -24,10 +24,10 @@ const ContentWrapper = styled.div`
 `;
 
 const TitlesWrapper = styled.div<{ position: string }>`
-  display: ${({ position }) => (position === "top" ? "none" : "block")};
+  display: ${({ position }) => (position === 'top' ? 'none' : 'block')};
 
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
-    display: ${({ position }) => (position === "top" ? "block" : "none")};
+    display: ${({ position }) => (position === 'top' ? 'block' : 'none')};
   }
 `;
 
@@ -35,13 +35,13 @@ const SkeletonProductDetail = () => {
   return (
     <div>
       <TopContentWrapper>
-        <TitlesWrapper position={"top"}>
+        <TitlesWrapper position={'top'}>
           <Skeleton mobileHeight={18} mobileWidth={40} mobileMarginBottom={8} />
           <Skeleton mobileMarginBottom={16} mobileHeight={22} />
         </TitlesWrapper>
         <ImageSkeleton height={300} mobileHeight={280} />
         <ContentWrapper>
-          <TitlesWrapper position={"bottom"}>
+          <TitlesWrapper position={'bottom'}>
             <Skeleton width={60} height={19} marginBottom={16} />
             <Skeleton height={30} marginBottom={4} />
             <Skeleton width={100} height={30} marginBottom={32} />

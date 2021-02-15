@@ -5,7 +5,7 @@ const formatDecimals = (num: number | undefined): string => {
   if (num !== undefined && num > 0) {
     return num < 10 ? `,0${num}` : `.${num}`;
   } else {
-    return "";
+    return '';
   }
 };
 

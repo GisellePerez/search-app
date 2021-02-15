@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../../constants/theme";
-import { ParagraphSmall } from "../../utils/Paragraph";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import theme from '../../constants/theme';
+import { ParagraphSmall } from '../../utils/Paragraph';
 
 const Wrapper = styled.section`
   margin: 16px 0;
@@ -17,7 +17,7 @@ const List = styled.ul`
     display: inline-flex;
 
     ::after {
-      content: ">";
+      content: '>';
 
       padding: 0 6px;
 
@@ -31,7 +31,7 @@ const List = styled.ul`
       }
 
       ::after {
-        content: "";
+        content: '';
       }
     }
   }
@@ -50,9 +50,7 @@ const Breadcrumb = ({ categories }: BreadcrumbType): ReactElement => {
             return (
               <li key={category}>
                 {/* TODO: replace after with chevron svg */}
-                <ParagraphSmall color={theme.color.gray2}>
-                  {category}
-                </ParagraphSmall>
+                <ParagraphSmall color={theme.color.gray2}>{category}</ParagraphSmall>
               </li>
             );
           })}

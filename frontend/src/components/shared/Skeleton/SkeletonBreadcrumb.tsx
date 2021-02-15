@@ -1,7 +1,6 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../../../constants/theme";
-import Skeleton from "./Skeleton";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import Skeleton from './Skeleton';
 
 const Wrapper = styled.section`
   display: flex;
@@ -19,9 +18,9 @@ const Wrapper = styled.section`
 const SkeletonBreadcrumb = (): ReactElement => {
   return (
     <Wrapper>
-      <Skeleton width={100} height={20} backgroundColor={"#dedede"} />
-      <Skeleton width={100} height={20} backgroundColor={"#dedede"} />
-      <Skeleton width={100} height={20} backgroundColor={"#dedede"} />
+      <Skeleton width={100} height={20} backgroundColor={'#dedede'} />
+      <Skeleton width={100} height={20} backgroundColor={'#dedede'} />
+      <Skeleton width={100} height={20} backgroundColor={'#dedede'} />
     </Wrapper>
   );
 };

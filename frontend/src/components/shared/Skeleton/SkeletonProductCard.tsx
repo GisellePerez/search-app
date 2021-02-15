@@ -1,7 +1,7 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../../../constants/theme";
-import Skeleton from "./Skeleton";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import theme from '../../../constants/theme';
+import Skeleton from './Skeleton';
 
 const Wrapper = styled.article`
   display: grid;
@@ -64,12 +64,7 @@ const SkeletonProductCard = (): ReactElement => {
           mobileHeight={22}
           mobileMarginTop={4}
         ></Skeleton>
-        <Skeleton
-          width={180}
-          height={24}
-          mobileHeight={22}
-          marginTop={8}
-        ></Skeleton>
+        <Skeleton width={180} height={24} mobileHeight={22} marginTop={8}></Skeleton>
       </PriceWrapper>
       <StateWrapper>
         <Skeleton width={82} height={18} marginTop={16}></Skeleton>

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
-import styled from "styled-components";
-import theme from "../../constants/theme";
+import styled from 'styled-components';
+import theme from '../../constants/theme';
 
-import logo from "../../assets/Logo_ML.png";
-import logo2x from "../../assets/Logo_ML@2x.png";
-import searchIcon from "../../assets/ic_Search.png";
-import searchIcon2x from "../../assets/ic_Search@2x.png";
+import logo from '../../assets/Logo_ML.png';
+import logo2x from '../../assets/Logo_ML@2x.png';
+import searchIcon from '../../assets/ic_Search.png';
+import searchIcon2x from '../../assets/ic_Search@2x.png';
 
 const Wrapper = styled.div`
   background: ${theme.color.yellow};
@@ -126,7 +126,7 @@ type SearchBarType = {
 
 const SearchBar = ({ placeholder, label }: SearchBarType) => {
   const history = useHistory();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   // Get input value when change event is fired
   const handleChange = (e: any): void => {
@@ -136,15 +136,15 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
   // If query isn't empty string, it will change the url and trigger data fetch
   const handleSubmit = (e: any): void => {
     e.preventDefault();
-    if (inputValue !== "") {
+    if (inputValue !== '') {
       history.push({
-        pathname: "/items",
+        pathname: '/items',
         search: `?search=${inputValue}`,
       });
     }
 
     // Clear input after search is done
-    setInputValue("");
+    setInputValue('');
   };
 
   return (
@@ -153,32 +153,24 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
         <LogoWrapper>
           <Link to="/">
             <picture>
-              <source
-                srcSet={logo2x}
-                media="(min-width:650px)"
-                type="image/png"
-              />
+              <source srcSet={logo2x} media="(min-width:650px)" type="image/png" />
               <img src={logo} alt="Mercado Libre" />
             </picture>
           </Link>
         </LogoWrapper>
         <Form>
-          <Label>{label ? label : "Ingresá lo que quieras encontrar"}</Label>
+          <Label>{label ? label : 'Ingresá lo que quieras encontrar'}</Label>
           <Input
             aria-label="Ingresá lo que quieras encontrar"
             type="text"
             name="search"
-            placeholder={placeholder ? placeholder : ""}
+            placeholder={placeholder ? placeholder : ''}
             onChange={(e) => handleChange(e)}
             value={inputValue}
           />
           <Button type="submit" onClick={(e) => handleSubmit(e)}>
             <picture>
-              <source
-                srcSet={searchIcon2x}
-                media="(min-width:650px)"
-                type="image/png"
-              />
+              <source srcSet={searchIcon2x} media="(min-width:650px)" type="image/png" />
               <img src={searchIcon} alt="Buscar" />
             </picture>
           </Button>

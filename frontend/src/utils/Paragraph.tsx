@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../constants/theme";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import theme from '../constants/theme';
 
 type GenericParagraphType = {
   fontSize: string;
@@ -24,11 +24,7 @@ type ParagraphType = {
   children: any;
 };
 
-const ParagraphExtraSmall = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphExtraSmall = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.extraSmall}
@@ -40,11 +36,7 @@ const ParagraphExtraSmall = ({
   );
 };
 
-const ParagraphSmall = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphSmall = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.small}
@@ -56,11 +48,7 @@ const ParagraphSmall = ({
   );
 };
 
-const ParagraphMedium = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphMedium = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.medium}
@@ -72,11 +60,7 @@ const ParagraphMedium = ({
   );
 };
 
-const ParagraphRegular = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphRegular = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.regular}
@@ -88,11 +72,7 @@ const ParagraphRegular = ({
   );
 };
 
-const ParagraphLarge = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphLarge = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.large}
@@ -104,11 +84,7 @@ const ParagraphLarge = ({
   );
 };
 
-const ParagraphExtraLarge = ({
-  fontWeight,
-  color,
-  children,
-}: ParagraphType): ReactElement => {
+const ParagraphExtraLarge = ({ fontWeight, color, children }: ParagraphType): ReactElement => {
   return (
     <Paragraph
       fontSize={theme.fontSize.extraLarge}

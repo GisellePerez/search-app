@@ -1,21 +1,21 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import apiRoutes from "../../constants/apiRoutes";
-import theme from "../../constants/theme";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import apiRoutes from '../../constants/apiRoutes';
+import theme from '../../constants/theme';
 
-import Button from "../../utils/Button/Button";
-import formatDecimals from "../../utils/formatDecimals";
-import formatNumbersWithDots from "../../utils/formatNumbersWithDots";
-import { ParagraphExtraSmall, ParagraphRegular } from "../../utils/Paragraph";
-import { H1, H2, H3 } from "../../utils/Titles";
-import Breadcrumb from "../Breadcrumb/Breadcrumb";
-import { ProductDetailType } from "../ProductsList/ProductsTypes";
+import Button from '../../utils/Button/Button';
+import formatDecimals from '../../utils/formatDecimals';
+import formatNumbersWithDots from '../../utils/formatNumbersWithDots';
+import { ParagraphExtraSmall, ParagraphRegular } from '../../utils/Paragraph';
+import { H1, H2, H3 } from '../../utils/Titles';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import { ProductDetailType } from '../ProductsList/ProductsTypes';
 
-import freeShippingIcon from "../../assets/ic_shipping.png";
-import freeShippingIcon2x from "../../assets/ic_shipping@2x.png";
-import SkeletonBreadcrumb from "../shared/Skeleton/SkeletonBreadcrumb";
-import SkeletonProductDetail from "../shared/Skeleton/SkeletonProductDetail";
+import freeShippingIcon from '../../assets/ic_shipping.png';
+import freeShippingIcon2x from '../../assets/ic_shipping@2x.png';
+import SkeletonBreadcrumb from '../shared/Skeleton/SkeletonBreadcrumb';
+import SkeletonProductDetail from '../shared/Skeleton/SkeletonProductDetail';
 
 const Wrapper = styled.section`
   width: 100%;
@@ -151,10 +151,10 @@ const FreeShippingWrapper = styled.div`
 `;
 
 const TitlesWrapper = styled.div<{ position: string }>`
-  display: ${({ position }) => (position === "top" ? "none" : "block")};
+  display: ${({ position }) => (position === 'top' ? 'none' : 'block')};
 
   @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
-    display: ${({ position }) => (position === "top" ? "block" : "none")};
+    display: ${({ position }) => (position === 'top' ? 'block' : 'none')};
   }
 `;
 
@@ -170,9 +170,7 @@ const ProductDetail = (): ReactElement => {
   const { id } = useParams<{ id: string }>();
 
   const [loading, setLoading] = useState(false);
-  const [rawData, setRawData] = useState<ProductDetailResponseType | null>(
-    null
-  );
+  const [rawData, setRawData] = useState<ProductDetailResponseType | null>(null);
 
   const handleFetchItemById = async () => {
     setLoading(true);
@@ -184,7 +182,7 @@ const ProductDetail = (): ReactElement => {
       setRawData(data);
       setLoading(false);
     } catch (error) {
-      console.log("error", error.message);
+      console.log('error', error.message);
     }
   };
 
@@ -194,18 +192,11 @@ const ProductDetail = (): ReactElement => {
 
   const itemData = rawData?.item && rawData.item;
 
-  type TitlesType = {
-    itemData: ProductDetailType;
-    position: boolean;
-  };
-
   const Titles = ({ itemData, position }: any): ReactElement => {
     return (
       <TitlesWrapper position={position}>
         <Subtitle>
-          <ParagraphExtraSmall color={theme.color.gray2}>
-            {itemData?.condition}
-          </ParagraphExtraSmall>
+          <ParagraphExtraSmall color={theme.color.gray2}>{itemData?.condition}</ParagraphExtraSmall>
           {itemData?.sold_quantity ? (
             <>
               <span>-</span>
@@ -241,11 +232,7 @@ const ProductDetail = (): ReactElement => {
               <Titles itemData={itemData} position="top" />
               <ImageWrapper>
                 <picture>
-                  <img
-                    src={itemData?.picture}
-                    alt={itemData?.title}
-                    title={itemData?.title}
-                  />
+                  <img src={itemData?.picture} alt={itemData?.title} title={itemData?.title} />
                 </picture>
               </ImageWrapper>
 
@@ -254,9 +241,7 @@ const ProductDetail = (): ReactElement => {
                 <PriceWrapper>
                   <Price size={theme.fontSize.extraLarge}>
                     <span>{itemData?.price?.currency}</span>
-                    <span>
-                      {formatNumbersWithDots(itemData?.price?.amount)}
-                    </span>
+                    <span>{formatNumbersWithDots(itemData?.price?.amount)}</span>
                     <span>{formatDecimals(itemData?.price?.decimals)}</span>
                   </Price>
                   {itemData?.free_shipping ? (
@@ -280,10 +265,7 @@ const ProductDetail = (): ReactElement => {
 
             {itemData?.description ? (
               <div>
-                <DescriptionTitle
-                  size={"28px"}
-                  weight={theme.fontWeight.medium}
-                >
+                <DescriptionTitle size={'28px'} weight={theme.fontWeight.medium}>
                   Descripción del producto
                 </DescriptionTitle>
 

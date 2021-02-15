@@ -1,12 +1,12 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../../constants/theme";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import theme from '../../constants/theme';
 
 const PrimaryButton = styled.button<{ fullWidth: boolean }>`
   margin-top: 32px;
   padding: 0 24px;
   height: 48px;
-  width: ${({ fullWidth }): string => (fullWidth ? "100%" : "auto")};
+  width: ${({ fullWidth }): string => (fullWidth ? '100%' : 'auto')};
 
   color: ${theme.color.white};
   font-size: ${theme.fontSize.regular};
@@ -32,7 +32,7 @@ const PrimaryButton = styled.button<{ fullWidth: boolean }>`
 `;
 
 type ButtonType = {
-  type: "primary" | "secondary";
+  type: 'primary' | 'secondary';
   children: any;
   onClick: () => any;
   fullWidth?: boolean;
@@ -41,11 +41,11 @@ type ButtonType = {
 const Button = ({
   children,
   onClick,
-  type = "primary",
+  type = 'primary',
   fullWidth = false,
 }: ButtonType): ReactElement => {
   switch (type) {
-    case "primary":
+    case 'primary':
       return (
         <PrimaryButton onClick={onClick} fullWidth={fullWidth}>
           {children}

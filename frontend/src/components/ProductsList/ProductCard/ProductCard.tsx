@@ -1,15 +1,15 @@
-import React, { ReactElement } from "react";
-import styled from "styled-components";
-import theme from "../../../constants/theme";
-import formatDecimals from "../../../utils/formatDecimals";
-import formatNumbersWithDots from "../../../utils/formatNumbersWithDots";
+import React, { ReactElement } from 'react';
+import styled from 'styled-components';
+import theme from '../../../constants/theme';
+import formatDecimals from '../../../utils/formatDecimals';
+import formatNumbersWithDots from '../../../utils/formatNumbersWithDots';
 
-import { ParagraphExtraSmall } from "../../../utils/Paragraph";
-import { H2, H3 } from "../../../utils/Titles";
-import { ProductCardType } from "../ProductsTypes";
+import { ParagraphExtraSmall } from '../../../utils/Paragraph';
+import { H2, H3 } from '../../../utils/Titles';
+import { ProductCardType } from '../ProductsTypes';
 
-import freeShippingIcon from "../../../assets/ic_shipping.png";
-import freeShippingIcon2x from "../../../assets/ic_shipping@2x.png";
+import freeShippingIcon from '../../../assets/ic_shipping.png';
+import freeShippingIcon2x from '../../../assets/ic_shipping@2x.png';
 
 const Wrapper = styled.article`
   display: grid;
@@ -133,11 +133,7 @@ const ProductCard = (item: ProductCardType): ReactElement => {
           {item?.free_shipping ? (
             <FreeShippingWrapper>
               <picture>
-                <source
-                  srcSet={freeShippingIcon2x}
-                  media="(min-width:650px)"
-                  type="image/png"
-                />
+                <source srcSet={freeShippingIcon2x} media="(min-width:650px)" type="image/png" />
                 <img src={freeShippingIcon} alt="Envío gratis" />
               </picture>
             </FreeShippingWrapper>

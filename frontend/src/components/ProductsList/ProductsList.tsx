@@ -1,14 +1,14 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import styled from "styled-components";
+import React, { ReactElement, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
-import apiRoutes from "../../constants/apiRoutes";
-import theme from "../../constants/theme";
-import Breadcrumb from "../Breadcrumb/Breadcrumb";
-import SkeletonBreadcrumb from "../shared/Skeleton/SkeletonBreadcrumb";
-import SkeletonProductCard from "../shared/Skeleton/SkeletonProductCard";
-import ProductCard from "./ProductCard/ProductCard";
-import { ProductCardType } from "./ProductsTypes";
+import apiRoutes from '../../constants/apiRoutes';
+import theme from '../../constants/theme';
+import Breadcrumb from '../Breadcrumb/Breadcrumb';
+import SkeletonBreadcrumb from '../shared/Skeleton/SkeletonBreadcrumb';
+import SkeletonProductCard from '../shared/Skeleton/SkeletonProductCard';
+import ProductCard from './ProductCard/ProductCard';
+import { ProductCardType } from './ProductsTypes';
 
 const Wrapper = styled.section`
   width: 100%;
@@ -59,7 +59,7 @@ const ProductsList = (): ReactElement => {
   const handleSearchByQuery = async () => {
     try {
       const response = await fetch(
-        `${apiRoutes.expressApi}/api/items?q=${searchParam.get("search")}`
+        `${apiRoutes.expressApi}/api/items?q=${searchParam.get('search')}`,
       );
       const data = await response.json();
 
@@ -67,7 +67,7 @@ const ProductsList = (): ReactElement => {
       setCategories(data?.categories);
       setLoading(false);
     } catch (error) {
-      console.log("error", error.message);
+      console.log('error', error.message);
     }
   };
 
