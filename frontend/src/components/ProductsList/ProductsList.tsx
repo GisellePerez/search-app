@@ -5,6 +5,8 @@ import styled from "styled-components";
 import apiRoutes from "../../constants/apiRoutes";
 import theme from "../../constants/theme";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
+import SkeletonBreadcrumb from "../shared/Skeleton/SkeletonBreadcrumb";
+import SkeletonProductCard from "../shared/Skeleton/SkeletonProductCard";
 import ProductCard from "./ProductCard/ProductCard";
 import { ProductCardType } from "./ProductsTypes";
 
@@ -52,6 +54,7 @@ const ProductsList = (): ReactElement => {
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSearchByQuery = async () => {
     try {
@@ -62,6 +65,7 @@ const ProductsList = (): ReactElement => {
 
       setProducts(data?.items);
       setCategories(data?.categories);
+      setLoading(false);
     } catch (error) {
       console.log("error", error.message);
     }
@@ -73,20 +77,34 @@ const ProductsList = (): ReactElement => {
 
   return (
     <Wrapper>
-      <Breadcrumb categories={categories} />
-      {products && products.length > 0 ? (
-        <List>
-          {products.map((item: ProductCardType) => (
+      {!loading && categories && categories.length > 0 ? (
+        <Breadcrumb categories={categories} />
+      ) : (
+        <SkeletonBreadcrumb />
+      )}
+      <List>
+        {!loading && products && products.length > 0 ? (
+          products.map((item: ProductCardType) => (
             <li key={item.id}>
               <Link to={`/items/${item.id}`}>
                 <ProductCard {...item} />
               </Link>
             </li>
-          ))}
-        </List>
-      ) : (
-        "Cargando"
-      )}
+          ))
+        ) : (
+          <>
+            <li>
+              <SkeletonProductCard />
+            </li>
+            <li>
+              <SkeletonProductCard />
+            </li>
+            <li>
+              <SkeletonProductCard />
+            </li>
+          </>
+        )}
+      </List>
       {/* TODO: add loading and skeletons */}
     </Wrapper>
   );
