@@ -4,7 +4,6 @@ import styled from "styled-components";
 import apiRoutes from "../../constants/apiRoutes";
 import theme from "../../constants/theme";
 
-import Button from "../../utils/Button/Button";
 import formatDecimals from "../../utils/formatDecimals";
 import formatNumbersWithDots from "../../utils/formatNumbersWithDots";
 import { ParagraphExtraSmall, ParagraphRegular } from "../../utils/Paragraph";
@@ -16,6 +15,7 @@ import freeShippingIcon from "../../assets/ic_shipping.png";
 import freeShippingIcon2x from "../../assets/ic_shipping@2x.png";
 import SkeletonBreadcrumb from "../shared/Skeleton/SkeletonBreadcrumb";
 import SkeletonProductDetail from "../shared/Skeleton/SkeletonProductDetail";
+import Button from "../shared/Button/Button";
 
 const Wrapper = styled.section`
   width: 100%;
