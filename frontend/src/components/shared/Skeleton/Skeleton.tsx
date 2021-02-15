@@ -3,8 +3,8 @@ import styled, { keyframes } from "styled-components";
 import theme from "../../../constants/theme";
 
 type SkeletonType = {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   marginTop?: number;
   marginBottom?: number;
   marginLeft?: number;
@@ -24,8 +24,9 @@ const Keyframes = keyframes`
   `;
 
 const SkeletonPart = styled.div<SkeletonType>`
-  width: ${({ width }) => (width ? `${width}px` : "24px")};
-  height: ${({ height }) => (height ? `${height}px` : "200px")};
+  width: ${({ width }) => (width ? `${width}px` : "100%")};
+  height: ${({ height }) => (height ? `${height}px` : "100%")};
+  max-width: 100%;
 
   margin-top: ${({ marginTop }) => (marginTop ? `${marginTop}px` : 0)};
   margin-bottom: ${({ marginBottom }) =>
@@ -46,7 +47,7 @@ const SkeletonPart = styled.div<SkeletonType>`
     left: 0;
 
     height: 100%;
-    width: ${({ width }) => (width ? `${width}px` : "24px")};
+    width: ${({ width }) => (width ? `${width}px` : "100%")};
 
     background-image: linear-gradient(
       90deg,
