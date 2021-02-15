@@ -17,6 +17,16 @@ const Paragraph = styled.p<GenericParagraphType>`
   color: ${({ color }) => (color ? color : theme.color.gray1)};
 `;
 
+/**
+ * Components that return paragraphs with different sizes and weights.
+ *
+ * @component
+ * @param   {number} fontWeight Custom font weight
+ * @param   {string} color Custom color. Should be passed as hexadecimal. E.g.: #dedede
+ * @param   {string} fontSize Custom font size
+ * @param   {any} children Accepts any kind of children
+ */
+
 type ParagraphType = {
   fontWeight?: number;
   color?: string;

@@ -42,6 +42,11 @@ const StateWrapper = styled.div`
   }
 `;
 
+/**
+ * Component for showing ProductCard skeleton.
+ *
+ * @component
+ */
 const SkeletonProductCard = (): ReactElement => {
   return (
     <Wrapper>

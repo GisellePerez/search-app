@@ -2,6 +2,25 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import theme from "../../../constants/theme";
 
+/**
+ * Component for building custom skeletons. Renders a div with background and amoving bar.
+ *
+ * @component
+ * @param   {number} width Custom desktop width in pixels
+ * @param   {number} height Custom desktop height in pixels
+ * @param   {number} mobileWidth Custom mobile width in pixels
+ * @param   {number} mobileHeight Custom mobile height in pixels
+ * @param   {number} marginTop Custom desktop margin-top in pixels
+ * @param   {number} marginBottom Custom desktop margin-bottom in pixels
+ * @param   {number} marginLeft Custom desktop margin-left in pixels
+ * @param   {number} marginRight Custom desktop margin-right in pixels
+ * @param   {number} mobileMarginTop Custom mobile margin-top in pixels
+ * @param   {number} mobileMarginBottom Custom mobile margin-bottom in pixels
+ * @param   {number} mobileMarginLeft Custom mobile margin-left in pixels
+ * @param   {number} mobileMarginRight Custom mobile margin-right in pixels
+ * @param   {boolean} borderRadius Apply 4px border radius
+ * @param   {string} backgroundColor Custom background-color. Should be passed as hexadecilam. E.g.: #EEEEEE
+ */
 type SkeletonType = {
   width?: number;
   height?: number;

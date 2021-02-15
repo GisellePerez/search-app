@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
-import theme from "../../../constants/theme";
 import Skeleton from "./Skeleton";
 
 const Wrapper = styled.section`
@@ -16,6 +15,11 @@ const Wrapper = styled.section`
   }
 `;
 
+/**
+ * Component for showing breadcrumb skeleton.
+ *
+ * @component
+ */
 const SkeletonBreadcrumb = (): ReactElement => {
   return (
     <Wrapper>

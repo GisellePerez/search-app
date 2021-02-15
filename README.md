@@ -42,8 +42,8 @@ E.g.: [http://localhost:3000/items?search=celular](http://localhost:3000/items?s
 
 You can see a detailed view of the item, by clicking one of the items of the list or by typing the item's id on the url.
 
-E.g: [http://localhost:3000/items/MLA904399939](http://localhost:3000/items/MLA904399939)
+E.g.: [http://localhost:3000/items/MLA904399939](http://localhost:3000/items/MLA904399939)
 
 ---
 
-You can check the [architecture](docs/ARCHITECTURE.md)
+You can check the [architecture here](docs/ARCHITECTURE.md)

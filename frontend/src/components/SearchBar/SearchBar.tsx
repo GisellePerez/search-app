@@ -117,23 +117,39 @@ const Button = styled.button`
   }
 `;
 
-// Placeholder and label are customizable
-// Label is for a11y purposes. It's hidden with css, but available for screen readers
+/**
+ * Component for showing cards of each product in the list of results.
+ *
+ * @component
+ * @param   {string} label Custm label for input. For a11y purposes. It's hidden with css, but available for screen readers
+ * @param   {string} placeholder Custom placeholder
+ */
 type SearchBarType = {
   label?: string;
   placeholder?: string;
 };
 
 const SearchBar = ({ placeholder, label }: SearchBarType) => {
+  /**
+   * Use useHistory hook from react-router-dom
+   */
   const history = useHistory();
+
+  /**
+   * Initial state for input value
+   */
   const [inputValue, setInputValue] = useState("");
 
-  // Get input value when change event is fired
+  /**
+   * Get input value when change event is fired
+   */
   const handleChange = (e: any): void => {
     setInputValue(e.target.value);
   };
 
-  // If query isn't empty string, it will change the url and trigger data fetch
+  /**
+   * If query isn't empty string, it will change the url to fetch data from server
+   */
   const handleSubmit = (e: any): void => {
     e.preventDefault();
     if (inputValue !== "") {
@@ -143,13 +159,16 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
       });
     }
 
-    // Clear input after search is done
+    /**
+     *  Clear input after search is done
+     */
     setInputValue("");
   };
 
   return (
     <Wrapper>
       <ContentWrapper>
+        {/* Logo with link to redirect to home */}
         <LogoWrapper>
           <Link to="/">
             <picture>
@@ -162,8 +181,13 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
             </picture>
           </Link>
         </LogoWrapper>
+
+        {/* Input */}
         <Form>
+          {/* Label (hidden with styles, but available for screen readers) */}
           <Label>{label ? label : "Ingresá lo que quieras encontrar"}</Label>
+
+          {/* Input */}
           <Input
             aria-label="Ingresá lo que quieras encontrar"
             type="text"
@@ -172,6 +196,8 @@ const SearchBar = ({ placeholder, label }: SearchBarType) => {
             onChange={(e) => handleChange(e)}
             value={inputValue}
           />
+
+          {/* Button */}
           <Button type="submit" onClick={(e) => handleSubmit(e)}>
             <picture>
               <source
