@@ -102,6 +102,9 @@ const ProductsList = (): ReactElement => {
             <li>
               <SkeletonProductCard />
             </li>
+            <li>
+              <SkeletonProductCard />
+            </li>
           </>
         )}
       </List>

@@ -18,30 +18,58 @@ const Wrapper = styled.article`
   }
 `;
 
+const ImageWrapper = styled.div`
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    width: 30vw;
+    height: 30vw;
+  }
+`;
+
 const PriceWrapper = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const StateWrapper = styled.div`
   display: flex;
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    display: none;
+  }
 `;
 
 const SkeletonProductCard = (): ReactElement => {
   return (
     <Wrapper>
-      <div>
-        <Skeleton width={180} height={180} borderRadius />
-      </div>
+      <ImageWrapper>
+        <Skeleton width={180} height={180} borderRadius mobileHeight={110} />
+      </ImageWrapper>
       <PriceWrapper>
         <Skeleton
           width={118}
           height={30}
           marginTop={16}
           marginBottom={32}
+          mobileMarginBottom={8}
         ></Skeleton>
-        <Skeleton width={240} height={24}></Skeleton>
-        <Skeleton width={180} height={24} marginTop={8}></Skeleton>
+
+        <Skeleton
+          width={240}
+          mobileWidth={80}
+          height={24}
+          mobileHeight={22}
+          mobileMarginTop={4}
+        ></Skeleton>
+        <Skeleton
+          width={180}
+          height={24}
+          mobileHeight={22}
+          marginTop={8}
+        ></Skeleton>
       </PriceWrapper>
       <StateWrapper>
         <Skeleton width={82} height={18} marginTop={16}></Skeleton>

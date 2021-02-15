@@ -86,6 +86,10 @@ const Subtitle = styled.div`
     font-weight: ${theme.fontWeight.light};
     color: ${theme.color.gray2};
   }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-bottom: 8px;
+  }
 `;
 
 const Title = styled(H1)`
