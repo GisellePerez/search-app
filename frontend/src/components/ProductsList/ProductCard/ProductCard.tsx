@@ -114,9 +114,16 @@ const StateWrapper = styled.div`
   }
 `;
 
+/**
+ * Component for showing cards of each product in the list of results.
+ *
+ * @component
+ * @param   {ProductCardType} item  Object with all the properties of the item (id, title, price, etc)
+ */
 const ProductCard = (item: ProductCardType): ReactElement => {
   return (
     <Wrapper>
+      {/** Image */}
       <ImageWrapper>
         <picture>
           <img src={item?.picture} alt={item?.title} title={item?.title} />
@@ -124,12 +131,15 @@ const ProductCard = (item: ProductCardType): ReactElement => {
       </ImageWrapper>
 
       <SideInfoWrapper>
+        {/** Price with formatted numbers */}
         <PriceWrapper>
           <Price>
             <span>{item?.price?.currency}</span>
             <span>{formatNumbersWithDots(item?.price?.amount)}</span>
             <span>{formatDecimals(item?.price?.decimals)}</span>
           </Price>
+
+          {/** Free Shipping icon with different qualities for different screens */}
           {item?.free_shipping ? (
             <FreeShippingWrapper>
               <picture>
@@ -144,9 +154,11 @@ const ProductCard = (item: ProductCardType): ReactElement => {
           ) : null}
         </PriceWrapper>
 
+        {/** Title */}
         <Title>{item?.title}</Title>
       </SideInfoWrapper>
 
+      {/** State */}
       <StateWrapper>
         {item?.address?.state_name ? (
           <ParagraphExtraSmall color={theme.color.gray2}>

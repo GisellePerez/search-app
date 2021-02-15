@@ -158,6 +158,55 @@ const TitlesWrapper = styled.div<{ position: string }>`
   }
 `;
 
+/**
+ * Component for title and subtitle of products.
+ *
+ * @component
+ * @param   {{name: string; lastname: string}} itemData Object with all the properties of the item (id, title, price, etc)
+ * @param   {ProductDetailType} position Indicates position on the parent (top or bottom)
+ */
+
+const Titles = ({ itemData, position }: any): ReactElement => {
+  return (
+    /**
+     * Title and subtitle of item
+     *
+     * @params {string} position Used to show/hide according to viewport size ('top' it will show only for mobile, 'bottom' will only show on desktop)
+     */
+    <TitlesWrapper position={position}>
+      <Subtitle>
+        {/** Item condition */}
+        <ParagraphExtraSmall color={theme.color.gray2}>
+          {itemData?.condition}
+        </ParagraphExtraSmall>
+
+        {/** Item sold quantity */}
+        {itemData?.sold_quantity ? (
+          <>
+            <span>-</span>
+            <ParagraphExtraSmall color={theme.color.gray2}>
+              {`${itemData?.sold_quantity} vendidos`}
+            </ParagraphExtraSmall>
+          </>
+        ) : null}
+      </Subtitle>
+
+      {/** Item title */}
+      <Title size={theme.fontSize.large} weight={theme.fontWeight.medium}>
+        {itemData?.title}
+      </Title>
+    </TitlesWrapper>
+  );
+};
+
+/**
+ * Component for showing the detail of a product.
+ *
+ * @component
+ * @param   {{name: string; lastname: string}} author  Author's name and lastname
+ * @param   {ProductDetailType} item  Object with all the properties of the item (id, title, price, etc)
+ */
+
 export type ProductDetailResponseType = {
   author: {
     name: string;
@@ -167,13 +216,22 @@ export type ProductDetailResponseType = {
 };
 
 const ProductDetail = (): ReactElement => {
+  /**
+   * Get id in the url using useParams provided by react-router-dom
+   */
   const { id } = useParams<{ id: string }>();
 
+  /**
+   * Initial states
+   */
   const [loading, setLoading] = useState(false);
   const [rawData, setRawData] = useState<ProductDetailResponseType | null>(
     null
   );
 
+  /**
+   * Function to fetch data from server and set states
+   */
   const handleFetchItemById = async () => {
     setLoading(true);
 
@@ -188,57 +246,36 @@ const ProductDetail = (): ReactElement => {
     }
   };
 
+  /**
+   * Call to the function that fetchs the data
+   */
   useEffect(() => {
     handleFetchItemById();
   }, [id]);
 
   const itemData = rawData?.item && rawData.item;
 
-  type TitlesType = {
-    itemData: ProductDetailType;
-    position: boolean;
-  };
-
-  const Titles = ({ itemData, position }: any): ReactElement => {
-    return (
-      <TitlesWrapper position={position}>
-        <Subtitle>
-          <ParagraphExtraSmall color={theme.color.gray2}>
-            {itemData?.condition}
-          </ParagraphExtraSmall>
-          {itemData?.sold_quantity ? (
-            <>
-              <span>-</span>
-              <ParagraphExtraSmall color={theme.color.gray2}>
-                {`${itemData?.sold_quantity} vendidos`}
-              </ParagraphExtraSmall>
-            </>
-          ) : null}
-        </Subtitle>
-        <Title size={theme.fontSize.large} weight={theme.fontWeight.medium}>
-          {itemData?.title}
-        </Title>
-      </TitlesWrapper>
-    );
-  };
-
   const handleBuyClick = (): void => {
-    // This function should trigger buying process
+    // Your code for triggering the buying process goes here
   };
 
   return (
     <Wrapper>
+      {/** Breadcrumb */}
       {!loading && itemData?.categories && itemData?.categories.length > 0 ? (
         <Breadcrumb categories={itemData?.categories} />
       ) : (
         <SkeletonBreadcrumb />
       )}
 
+      {/** Content */}
       <ContentWrapper>
         {!loading && rawData?.item ? (
           <>
             <TopWrapper>
               <Titles itemData={itemData} position="top" />
+
+              {/** Image */}
               <ImageWrapper>
                 <picture>
                   <img
@@ -251,6 +288,8 @@ const ProductDetail = (): ReactElement => {
 
               <TopInfoWrapper>
                 <Titles itemData={itemData} position="bottom" />
+
+                {/** Price with formatted numbers and decimals */}
                 <PriceWrapper>
                   <Price size={theme.fontSize.extraLarge}>
                     <span>{itemData?.price?.currency}</span>
@@ -259,6 +298,8 @@ const ProductDetail = (): ReactElement => {
                     </span>
                     <span>{formatDecimals(itemData?.price?.decimals)}</span>
                   </Price>
+
+                  {/** Free shipping icon */}
                   {itemData?.free_shipping ? (
                     <FreeShippingWrapper>
                       <picture>
@@ -272,12 +313,15 @@ const ProductDetail = (): ReactElement => {
                     </FreeShippingWrapper>
                   ) : null}
                 </PriceWrapper>
+
+                {/** Buy button */}
                 <Button type="primary" onClick={handleBuyClick} fullWidth>
                   Comprar
                 </Button>
               </TopInfoWrapper>
             </TopWrapper>
 
+            {/** Desription */}
             {itemData?.description ? (
               <div>
                 <DescriptionTitle

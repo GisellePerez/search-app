@@ -2,6 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../constants/theme";
 
+/**
+ * Components that return titles with different sizes and weights.
+ *
+ * @component
+ * @param   {number} weight Custom font weight
+ * @param   {string} color Custom color. Should be passed as hexadecimal. E.g.: #dedede
+ * @param   {string} size Custom font size
+ */
 type GenericTitleType = {
   size?: string;
   weight?: number;

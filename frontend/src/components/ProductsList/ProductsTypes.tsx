@@ -1,3 +1,8 @@
+/**
+ * Type for ProductCard.
+ *
+ * @type
+ */
 export type ProductCardType = {
   id: string;
   title: string;
@@ -18,6 +23,11 @@ export type ProductCardType = {
   };
 };
 
+/**
+ * Type for ProductDetail.
+ *
+ * @type
+ */
 export type ProductDetailType = {
   id: string;
   title: string;

@@ -48,14 +48,29 @@ const List = styled.ul`
 
 export type ProductsListType = {};
 
+/**
+ * Component for showing the list of items after search.
+ *
+ * @component
+ */
+
 const ProductsList = (): ReactElement => {
+  /**
+   * Get query from url using useLocation from react-router-dom
+   */
   const location = useLocation();
   const searchParam = new URLSearchParams(location.search);
 
+  /**
+   * Initial states
+   */
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  /**
+   * Function to fetch data from server and set states
+   */
   const handleSearchByQuery = async () => {
     try {
       const response = await fetch(
@@ -71,28 +86,37 @@ const ProductsList = (): ReactElement => {
     }
   };
 
+  /**
+   * Call to the function that fetchs the data
+   */
   useEffect(() => {
     handleSearchByQuery();
   }, [location]);
 
   return (
     <Wrapper>
+      {/** Breadcrumb */}
       {!loading && categories && categories.length > 0 ? (
         <Breadcrumb categories={categories} />
       ) : (
         <SkeletonBreadcrumb />
       )}
+
+      {/** List */}
       <List>
         {!loading && products && products.length > 0 ? (
           products.map((item: ProductCardType) => (
             <li key={item.id}>
+              {/** Item from the list with link to go to ProductDetail page  */}
               <Link to={`/items/${item.id}`}>
+                {/** ProductCard  */}
                 <ProductCard {...item} />
               </Link>
             </li>
           ))
         ) : (
           <>
+            {/** Skeletons that show while component is loading  */}
             <li>
               <SkeletonProductCard />
             </li>
@@ -108,7 +132,6 @@ const ProductsList = (): ReactElement => {
           </>
         )}
       </List>
-      {/* TODO: add loading and skeletons */}
     </Wrapper>
   );
 };

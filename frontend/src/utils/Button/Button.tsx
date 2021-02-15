@@ -38,6 +38,15 @@ type ButtonType = {
   fullWidth?: boolean;
 };
 
+/**
+ * Component to show a button that triggers an action.
+ *
+ * @component
+ * @param   {any} children Children inside the button to make it more dynamic
+ * @param   {() => any} onClick Function that should trigger on click event
+ * @param   {string} type For scalability purposes. It should change its appearance according to type
+ * @param   {boolean} fullWidth Determines if the button takes all space available
+ */
 const Button = ({
   children,
   onClick,
@@ -45,6 +54,7 @@ const Button = ({
   fullWidth = false,
 }: ButtonType): ReactElement => {
   switch (type) {
+    /** case 'primary' */
     case "primary":
       return (
         <PrimaryButton onClick={onClick} fullWidth={fullWidth}>
@@ -52,6 +62,9 @@ const Button = ({
         </PrimaryButton>
       );
 
+    /** Your code for 'secondary' button goes here */
+
+    /** default case is 'primary' */
     default:
       return (
         <PrimaryButton onClick={onClick} fullWidth={fullWidth}>

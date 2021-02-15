@@ -31,6 +31,11 @@ const TitlesWrapper = styled.div<{ position: string }>`
   }
 `;
 
+/**
+ * Component for showing ProductDetail skeleton.
+ *
+ * @component
+ */
 const SkeletonProductDetail = () => {
   return (
     <div>

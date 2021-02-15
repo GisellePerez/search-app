@@ -8,6 +8,12 @@ const author = {
   lastname: "Perez",
 };
 
+/**
+ *  Function to fetch currency symbol by id.
+ *
+ * @param   {string} currencyId item's currency id. E.g.: 'ARS'.
+ * @returns {string} item's currency symbol. E.g.: '$'.
+ */
 const fetchCurrencySymbol = async (currencyId) => {
   const response = await fetch(`${baseUrl}/currencies/${currencyId}`);
   const currencyData = await response.json();
@@ -15,16 +21,24 @@ const fetchCurrencySymbol = async (currencyId) => {
   return currencyData.symbol;
 };
 
-// Function to format the price and the decimals
+/**
+ *  Function to format the price and the decimals. Calls function to fetch currency symbol by id.
+ *
+ * @param   {string} currencyId item's currency_id. E.g.: 'ARS'.
+ * @param   {number} price number corresponding to price
+ *
+ * @returns {{currency: string; amount: number; decimals: number}} the number formatted accordingly
+ */
 const formatPrice = async (currencyId, price) => {
   let formattedPrice = {};
 
   if (price) {
-    // Turn number into a string and then create an array to separate first part of the number from decimals
+    //** Turn number into a string and then create an array to separate first part of the number from decimals */
     const priceArray = ("" + price).split(".");
 
-    // Assing first element of array to amount and second element to decimals
+    //** Call function to fetch currency symbol by id  */
     formattedPrice.currency = await fetchCurrencySymbol(currencyId);
+    //** Assing first element of priceArray to amount and second element to decimals */
     formattedPrice.amount = parseInt(priceArray[0]);
     formattedPrice.decimals = priceArray[1] ? parseInt(priceArray[1]) : 0;
   }
@@ -32,19 +46,35 @@ const formatPrice = async (currencyId, price) => {
   return formattedPrice;
 };
 
-// Function to return only an array of strings for categories
+/**
+ * Function to fetch category symbol by id
+ *
+ * @param   {{id: string; name: string;}} categories  Array of categories
+ * @returns {string[]} Array of categories' names
+ */
 const formatCategories = async (categories) => {
   if (categories && categories.length > 0) {
     return categories.map((category) => category.name);
   }
 };
 
-// Fetch list of items by query
+/**
+ * Fetch list of items by query
+ *
+ * @param   {any} req
+ * @param   {any} res
+ * @param   {any} next
+ * @returns {{author: {name:string; lastname: string}; categories: string[], items: Item[]}} Array of categories' names
+ */
 self.fetchItems = async function (req, res, next) {
-  // Get query from frontend request
+  /** Get query from frontend request */
   const query = req.query.q;
 
-  // Function to fetch categories based on items.category_id
+  /** Function to fetch categories by item's category_id
+   *
+   * @param   {Item[]} items array of items reurned by the api
+   * @returns {string[]} categories formatted for frontend
+   */
   const fetchCategories = async (items) => {
     if (items && items.length > 0 && items[0].category_id) {
       const categoriesResponse = await fetch(
@@ -59,7 +89,11 @@ self.fetchItems = async function (req, res, next) {
     }
   };
 
-  // Function to fetch data from api based on search query
+  /**
+   * Function to fetch data from api based on search query
+   *
+   * @returns {FormattedItem[]} items formatted for frontend
+   */
   const fetchData = async () => {
     try {
       const response = await fetch(`${baseUrl}/sites/MLA/search?q=${query}`);
@@ -71,7 +105,12 @@ self.fetchItems = async function (req, res, next) {
     }
   };
 
-  // Format response that will be sent to frontend
+  /**
+   * Format response that will be sent to frontend
+   *
+   * @param   {Item[]} items array of items reurned by the api
+   * @returns {FormattedItem[]} items formatted for frontend
+   */
   const formatItem = async (items) => {
     let formattedItems = [];
 
@@ -103,7 +142,7 @@ self.fetchItems = async function (req, res, next) {
 
   const rawData = await fetchData();
 
-  // Send response with requested format
+  //** Send response with requested format */
   if (rawData.results.length > 0) {
     res.send({
       author: author,
@@ -113,33 +152,47 @@ self.fetchItems = async function (req, res, next) {
   }
 };
 
-// Fetch item by id
+/**
+ * Function to fetch item by id
+ *
+ * @param   {any} req
+ * @param   {any} res
+ * @param   {any} next
+ * @returns {FormattedItemDetailData} item with format requested for frontend
+ */
 self.fetchItemById = async function (req, res, next) {
-  // Get query from frontend request
+  //** Get query from frontend request */
   const itemId = req.params.id;
   const itemUrl = `${baseUrl}/items/${itemId}`;
 
   let itemCategoryId = null;
 
-  // Function to fetch item data by its id
+  /**
+   * Function to fetch item data by its id
+   *
+   * @returns {ItemDetailData} item's raw data from api
+   */
   const fetchItemData = async () => {
     try {
-      // First get response and parse it to json
+      //** First get response and parse it to json */
       const response = await fetch(itemUrl);
       const itemData = await response.json();
 
-      // Then get category_id and store it in a variable.
-      // Will be used later when fetching the item's categories
+      //**  Then get category_id and store it in a variable. */
+      //**  It will be used later when fetching the item's categories */
       itemCategoryId = await itemData.category_id;
 
-      // TODO: is it better to return en object with the raw data and the categories instead?
       return itemData;
     } catch (error) {
       console.log("error", error.message);
     }
   };
 
-  // Function to fetch item desctription
+  /**
+   * Function to fetch item desctription
+   *
+   * @returns {string} item's description from api
+   */
   const fetchItemDescription = async () => {
     try {
       const descriptionResponse = await fetch(`${itemUrl}/description`);
@@ -151,7 +204,11 @@ self.fetchItemById = async function (req, res, next) {
     }
   };
 
-  // Function to fetch item desctription
+  /**
+   * Function to fetch item's categories
+   *
+   * @returns {string[]} array of categories names (formatted for frontend)
+   */
   const fetchItemCategories = async () => {
     try {
       const itemCategoriesResponse = await fetch(
@@ -168,6 +225,12 @@ self.fetchItemById = async function (req, res, next) {
     }
   };
 
+  /**
+   * Function to return item's condition in Spanish by condition from api.
+   *
+   * @param   {string} condition condition from api in English. E.g.: 'new'
+   * @returns {string} condition in Spanish. E.g.: 'Nuevo'
+   */
   const translateCondition = async (condition) => {
     switch (condition) {
       case "new":
@@ -181,7 +244,12 @@ self.fetchItemById = async function (req, res, next) {
     }
   };
 
-  // Function to format item response to send to frontend
+  /**
+   * Function to format item response to send to frontend.
+   *
+   * @param   {Item} item item's raw data from api
+   * @returns {FormattedItemDetailData} item formatted as requested to send to frontend
+   */
   const formatItemDetailData = async (item) => {
     const formattedDetail = {
       id: item.id,
@@ -200,7 +268,7 @@ self.fetchItemById = async function (req, res, next) {
 
   const itemData = await fetchItemData();
 
-  // Send response with requested format
+  //** Send response with requested format */
   res.send({
     author: author,
     item: await formatItemDetailData(itemData),

@@ -37,6 +37,13 @@ const List = styled.ul`
   }
 `;
 
+/**
+ * Component for showing breadcrumb in the differnt pages.
+ *
+ * @component
+ * @param   {string[]} categories  Array of category names
+ */
+
 type BreadcrumbType = {
   categories: string[];
 };
@@ -44,12 +51,14 @@ type BreadcrumbType = {
 const Breadcrumb = ({ categories }: BreadcrumbType): ReactElement => {
   return (
     <Wrapper>
+      {/*
+       * List of categories
+       */}
       {categories && categories.length > 0 ? (
         <List>
           {categories.map((category: string) => {
             return (
               <li key={category}>
-                {/* TODO: replace after with chevron svg */}
                 <ParagraphSmall color={theme.color.gray2}>
                   {category}
                 </ParagraphSmall>
