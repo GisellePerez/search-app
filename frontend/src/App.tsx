@@ -1,15 +1,9 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import styled from "styled-components";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import ProductsList from "./components/ProductsList/ProductsList";
 import SearchBar from "./components/SearchBar/SearchBar";
-import theme from "./constants/theme";
-
-const Title = styled.h1`
-  color: gray;
-`;
 
 function App() {
   return (

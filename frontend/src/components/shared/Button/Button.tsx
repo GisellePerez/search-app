@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
-import theme from "../../constants/theme";
+import theme from "../../../constants/theme";
 
 const PrimaryButton = styled.button<{ fullWidth: boolean }>`
   margin-top: 32px;
