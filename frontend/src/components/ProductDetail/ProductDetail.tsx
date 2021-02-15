@@ -14,6 +14,8 @@ import { ProductDetailType } from "../ProductsList/ProductsTypes";
 
 import freeShippingIcon from "../../assets/ic_shipping.png";
 import freeShippingIcon2x from "../../assets/ic_shipping@2x.png";
+import SkeletonBreadcrumb from "../shared/Skeleton/SkeletonBreadcrumb";
+import SkeletonProductDetail from "../shared/Skeleton/SkeletonProductDetail";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -83,6 +85,10 @@ const Subtitle = styled.div`
 
     font-weight: ${theme.fontWeight.light};
     color: ${theme.color.gray2};
+  }
+
+  @media screen and (max-width: ${theme.breakpoints.mobileLG}) {
+    margin-bottom: 8px;
   }
 `;
 
@@ -221,75 +227,77 @@ const ProductDetail = (): ReactElement => {
   };
 
   return (
-    <>
-      {!loading
-        ? rawData?.item && (
-            <Wrapper>
-              {itemData?.categories && itemData?.categories.length > 0 ? (
-                <Breadcrumb categories={itemData?.categories} />
-              ) : null}
-              <ContentWrapper>
-                <TopWrapper>
-                  <Titles itemData={itemData} position="top" />
-                  <ImageWrapper>
-                    <picture>
-                      <img
-                        src={itemData?.picture}
-                        alt={itemData?.title}
-                        title={itemData?.title}
-                      />
-                    </picture>
-                  </ImageWrapper>
+    <Wrapper>
+      {!loading && itemData?.categories && itemData?.categories.length > 0 ? (
+        <Breadcrumb categories={itemData?.categories} />
+      ) : (
+        <SkeletonBreadcrumb />
+      )}
 
-                  <TopInfoWrapper>
-                    <Titles itemData={itemData} position="bottom" />
-                    <PriceWrapper>
-                      <Price size={theme.fontSize.extraLarge}>
-                        <span>{itemData?.price?.currency}</span>
-                        <span>
-                          {formatNumbersWithDots(itemData?.price?.amount)}
-                        </span>
-                        <span>{formatDecimals(itemData?.price?.decimals)}</span>
-                      </Price>
-                      {itemData?.free_shipping ? (
-                        <FreeShippingWrapper>
-                          <picture>
-                            <source
-                              srcSet={freeShippingIcon2x}
-                              media="(min-width:650px)"
-                              type="image/png"
-                            />
-                            <img src={freeShippingIcon} alt="Envío gratis" />
-                          </picture>
-                        </FreeShippingWrapper>
-                      ) : null}
-                    </PriceWrapper>
-                    <Button type="primary" onClick={handleBuyClick} fullWidth>
-                      Comprar
-                    </Button>
-                  </TopInfoWrapper>
-                </TopWrapper>
-                {itemData?.description ? (
-                  <div>
-                    <DescriptionTitle
-                      size={"28px"}
-                      weight={theme.fontWeight.medium}
-                    >
-                      Descripción del producto
-                    </DescriptionTitle>
+      <ContentWrapper>
+        {!loading && rawData?.item ? (
+          <>
+            <TopWrapper>
+              <Titles itemData={itemData} position="top" />
+              <ImageWrapper>
+                <picture>
+                  <img
+                    src={itemData?.picture}
+                    alt={itemData?.title}
+                    title={itemData?.title}
+                  />
+                </picture>
+              </ImageWrapper>
 
-                    <DescriptionTextWrapper color={theme.color.gray2}>
-                      <ParagraphRegular>
-                        {itemData?.description}
-                      </ParagraphRegular>
-                    </DescriptionTextWrapper>
-                  </div>
-                ) : null}
-              </ContentWrapper>
-            </Wrapper>
-          )
-        : "cargando"}
-    </>
+              <TopInfoWrapper>
+                <Titles itemData={itemData} position="bottom" />
+                <PriceWrapper>
+                  <Price size={theme.fontSize.extraLarge}>
+                    <span>{itemData?.price?.currency}</span>
+                    <span>
+                      {formatNumbersWithDots(itemData?.price?.amount)}
+                    </span>
+                    <span>{formatDecimals(itemData?.price?.decimals)}</span>
+                  </Price>
+                  {itemData?.free_shipping ? (
+                    <FreeShippingWrapper>
+                      <picture>
+                        <source
+                          srcSet={freeShippingIcon2x}
+                          media="(min-width:650px)"
+                          type="image/png"
+                        />
+                        <img src={freeShippingIcon} alt="Envío gratis" />
+                      </picture>
+                    </FreeShippingWrapper>
+                  ) : null}
+                </PriceWrapper>
+                <Button type="primary" onClick={handleBuyClick} fullWidth>
+                  Comprar
+                </Button>
+              </TopInfoWrapper>
+            </TopWrapper>
+
+            {itemData?.description ? (
+              <div>
+                <DescriptionTitle
+                  size={"28px"}
+                  weight={theme.fontWeight.medium}
+                >
+                  Descripción del producto
+                </DescriptionTitle>
+
+                <DescriptionTextWrapper color={theme.color.gray2}>
+                  <ParagraphRegular>{itemData?.description}</ParagraphRegular>
+                </DescriptionTextWrapper>
+              </div>
+            ) : null}
+          </>
+        ) : (
+          <SkeletonProductDetail />
+        )}
+      </ContentWrapper>
+    </Wrapper>
   );
 };
 
