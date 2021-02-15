@@ -52,7 +52,7 @@ const formatPrice = async (currencyId, price) => {
  * @param   {{id: string; name: string;}} categories  Array of categories
  * @returns {string[]} Array of categories' names
  */
-const formatCategories = async (categories) => {
+const formatCategories = (categories) => {
   if (categories && categories.length > 0) {
     return categories.map((category) => category.name);
   }
@@ -81,9 +81,7 @@ self.fetchItems = async function (req, res, next) {
         `${baseUrl}/categories/${items[0].category_id}`
       );
       const categoryData = await categoriesResponse.json();
-      const formattedCategories = await formatCategories(
-        categoryData.path_from_root
-      );
+      const formattedCategories = formatCategories(categoryData.path_from_root);
 
       return formattedCategories;
     }
@@ -215,7 +213,7 @@ self.fetchItemById = async function (req, res, next) {
         `${baseUrl}/categories/${itemCategoryId}`
       );
       const itemCategories = await itemCategoriesResponse.json();
-      const formattedCategories = await formatCategories(
+      const formattedCategories = formatCategories(
         itemCategories.path_from_root
       );
 
@@ -231,7 +229,7 @@ self.fetchItemById = async function (req, res, next) {
    * @param   {string} condition condition from api in English. E.g.: 'new'
    * @returns {string} condition in Spanish. E.g.: 'Nuevo'
    */
-  const translateCondition = async (condition) => {
+  const translateCondition = (condition) => {
     switch (condition) {
       case "new":
         return "Nuevo";
@@ -274,7 +272,7 @@ self.fetchItemById = async function (req, res, next) {
       title: item.title,
       price: await formatPrice(item.currency_id, item.price),
       picture: formatPictures(item.pictures),
-      condition: await translateCondition(item.condition),
+      condition: translateCondition(item.condition),
       free_shipping: item.shipping.free_shipping,
       description: await fetchItemDescription(),
       categories: await fetchItemCategories(),
